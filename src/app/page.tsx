@@ -3,7 +3,7 @@ import Home from '../components/home';
 
 export default function Page() {
     return (
-        <div>
+        <div className='w-full h-full'>
             <Navbar />
             <Home />
         </div>
