@@ -65,4 +65,10 @@
   }
 }
 
+@layer components {
+  body {
+    @apply font-mono;
+  }
+}
+
 
