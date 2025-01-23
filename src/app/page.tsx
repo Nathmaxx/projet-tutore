@@ -29,8 +29,8 @@ export default function Page() {
 	};
 
 	return (
-		<div className='w-full h-full flex flex-col justify-between'>
-			<div className="absolute h-screen w-screen -z-10">
+		<div className='w-full h-full flex flex-col justify-between overflow-x-hidden'>
+			<div className="absolute h-screen w-screen -z-10 overflow-hidden">
 				<AnimatedNoise opacity={0.1} />
 			</div>
 			<Navbar setCurrentPage={setCurrentPage} />
