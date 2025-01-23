@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -8,7 +8,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import {Bar} from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(
     CategoryScale,
@@ -32,25 +32,38 @@ export const options = {
     },
 };
 
-const labels = ['2018', '2019', '2020'];
+export function BarCharter({ graphType, startYear, endYear }) {
+    const [data, setData] = useState({ labels: [], datasets: [] });
 
-export const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Electricité',
-            data: [65, 20, 80],
-            backgroundColor: 'rgba(255, 215, 0, 0.5)',
-        },
-        {
-            label: 'Gaz',
-            data: [6, 59, 40],
-            backgroundColor: 'rgba(169, 169, 169, 0.5)',
-        },
-    ],
-};
+    useEffect(() => {
+        const fetchData = async () => {
+            // Generate labels based on startYear and endYear
+            const labels = [];
+            for (let year = startYear; year <= endYear; year++) {
+                labels.push(year.toString());
+            }
 
-export function BarCharter() {
+            // Example datasets
+            const datasets = [
+                {
+                    label: 'Electricité',
+                    data: labels.map(() => Math.floor(Math.random() * 100)),
+                    backgroundColor: 'rgba(255, 215, 0, 0.5)',
+                },
+                {
+                    label: 'Gaz',
+                    data: labels.map(() => Math.floor(Math.random() * 100)),
+                    backgroundColor: 'rgba(169, 169, 169, 0.5)',
+                },
+            ];
+
+            // Update the data state
+            setData({ labels, datasets });
+        };
+
+        fetchData();
+    }, [graphType, startYear, endYear]);
+
     return (
         <Bar options={options} data={data} />
     );
