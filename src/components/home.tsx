@@ -5,7 +5,6 @@ import {
 	AccordionItem
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader } from "./ui/card";
-import BackgroundAnimation from "./BackgroundAnimation";
 
 export default function Home() {
 	return (
