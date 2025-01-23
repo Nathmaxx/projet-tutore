@@ -24,9 +24,20 @@ const graph = [
     { label: "Pie", value: "Pie" },
 ]
 
-export function ComboBoxGraphType() {
+interface ComboBoxGraphTypeProps {
+    onChange: (value: string) => void;
+}
+
+export function ComboBoxGraphType({ onChange }: ComboBoxGraphTypeProps) {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
+
+    const handleSelect = (currentValue: string) => {
+        const newValue = currentValue === value ? "" : currentValue
+        setValue(newValue)
+        setOpen(false)
+        onChange(newValue)
+    }
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -38,7 +49,7 @@ export function ComboBoxGraphType() {
                     className="w-[200px] justify-between"
                 >
                     {value
-                        ? graph.find((year) => year.value === value)?.label
+                        ? graph.find((graph) => graph.value === value)?.label
                         : "Selectionner graph"}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
@@ -53,10 +64,7 @@ export function ComboBoxGraphType() {
                                 <CommandItem
                                     key={graph.value}
                                     value={graph.value}
-                                    onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
-                                        setOpen(false)
-                                    }}
+                                    onSelect={handleSelect}
                                 >
                                     {graph.label}
                                     <Check
