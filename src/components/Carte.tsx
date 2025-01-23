@@ -34,19 +34,14 @@ export default function Carte() {
     return (
         <Card className="w-4/5 h-fit mx-auto">
             <CardHeader>
-                <h1 className="text-2xl font-bold">Map page</h1>
+                <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
             </CardHeader>
             <CardContent>
-                <div className='font-bold'>
-                    Page de la carte
-                </div>
-                <div className="flex items-center space-x-4 text-sm m-10">
+                <div className="flex items-center space-x-4 text-sm m-4">
                     <div>Début: <Combobox /></div>
                     <div>Fin: <Combobox /></div>
                 </div>
-                <div className='rounded-lg'>
-                    <div ref={mapContainer} className="w-full h-96" />
-                </div>
+                <div ref={mapContainer} className="w-full h-96 rounded-lg" />
             </CardContent>
         </Card>
     );
