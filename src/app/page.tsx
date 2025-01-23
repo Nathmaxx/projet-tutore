@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import Home from '../components/home';
-import About from '../components/About';
+import Carte from '../components/Carte';
 import Graph from '../components/Graph';
 import Contact from '../components/Contact';
 
@@ -14,10 +15,10 @@ export default function Page() {
         switch (currentPage) {
             case 'home':
                 return <Home />;
-            case 'about':
-                return <About />;
-			case 'graph':
-				return <Graph />;
+            case 'carte':
+                return <Carte />;
+            case 'graph':
+                return <Graph />;
             case 'contact':
                 return <Contact />;
             default:
@@ -26,9 +27,12 @@ export default function Page() {
     };
 
     return (
-        <div className='w-full h-full'>
+        <div className='w-full h-full flex flex-col justify-between'>
             <Navbar setCurrentPage={setCurrentPage} />
-            {renderPage()}
+            <div className='flex-grow'>
+                {renderPage()}
+            </div>
+            <Footer />
         </div>
     );
 }
