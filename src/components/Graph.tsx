@@ -1,23 +1,23 @@
+import { useEffect, useState } from 'react';
 import { Card, CardHeader } from "./ui/card";
-import {ComboBoxYear} from "@/components/ComboBoxYear";
-import {ComboBoxGraphType} from "@/components/ComboBoxGraphType";
-import {BarCharter} from "@/components/BarCharter";
-import {useEffect, useState} from "react";
+import { ComboBoxYear } from "@/components/ComboBoxYear";
+import { ComboBoxGraphType } from "@/components/ComboBoxGraphType";
+import { BarCharter } from "@/components/BarCharter";
 
 export default function Graph() {
     const [startYear, setStartYear] = useState("2018");
     const [endYear, setEndYear] = useState("2019");
     const [graphType, setGraphType] = useState(null);
 
-    const handleStartYearChange = (year) => {
+    const handleStartYearChange = (year: number) => {
         setStartYear(year);
     };
 
-    const handleEndYearChange = (year) => {
+    const handleEndYearChange = (year: number) => {
         setEndYear(year);
     };
 
-    const handleGraphTypeChange = (type) => {
+    const handleGraphTypeChange = (type: string) => {
         setGraphType(type);
     };
 

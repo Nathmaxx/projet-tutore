@@ -38,8 +38,8 @@ export default function Carte() {
             </CardHeader>
             <CardContent>
                 <div className="flex items-center space-x-4 text-sm m-4">
-                    <div>Début: <ComboBoxYear /></div>
-                    <div>Fin: <ComboBoxYear /></div>
+                    <div>Début: <ComboBoxYear onChange={() => {}} /></div>
+                    <div>Fin: <ComboBoxYear onChange={() => {}} /></div>
                 </div>
                 <div ref={mapContainer} className="w-full h-96 rounded-lg" />
             </CardContent>

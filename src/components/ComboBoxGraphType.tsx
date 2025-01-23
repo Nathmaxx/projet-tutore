@@ -47,7 +47,7 @@ export function ComboBoxGraphType({ onChange }) {
                     className="w-[200px] justify-between"
                 >
                     {value
-                        ? graph.find((graph) => graph.value === value)?.label
+                        ? graph.find((year) => year.value === value)?.label
                         : "Selectionner graph"}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
@@ -62,7 +62,10 @@ export function ComboBoxGraphType({ onChange }) {
                                 <CommandItem
                                     key={graph.value}
                                     value={graph.value}
-                                    onSelect={handleSelect}
+                                    onSelect={(currentValue) => {
+                                        setValue(currentValue === value ? "" : currentValue)
+                                        setOpen(false)
+                                    }}
                                 >
                                     {graph.label}
                                     <Check
