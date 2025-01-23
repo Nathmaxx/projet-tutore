@@ -1,4 +1,4 @@
-import { Cable } from 'lucide-react';
+import { Cable, ChartArea, Contact, Map } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 
@@ -9,13 +9,16 @@ export default function Navbar({ setCurrentPage }) {
                 <Cable />
                 Projet Tutoré
             </Button>
-            <Button variant='link' className='font-bold' onClick={() => setCurrentPage('about')}>
-                About
+            <Button variant='link' className='font-bold' onClick={() => setCurrentPage('carte')}>
+                <Map />
+                Carte
             </Button>
             <Button variant='link' className='font-bold' onClick={() => setCurrentPage('graph')}>
+                <ChartArea />
                 Graph
             </Button>
             <Button variant='link' className='font-bold' onClick={() => setCurrentPage('contact')}>
+                <Contact />
                 Contact
             </Button>
         </Card>
