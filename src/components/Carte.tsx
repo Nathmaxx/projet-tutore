@@ -8,8 +8,8 @@ export default function Carte() {
     const mapContainer = useRef(null);
     const [API_KEY] = useState('INdXbZgYY8GqK1IGryTJ');
     const [viewState] = useState({
-        center: [2.213749, 46.227638],
-        zoom: 5,
+        center: [5.0000, 45.7667],
+        zoom: 10,
         pitch: 40
     });
 
