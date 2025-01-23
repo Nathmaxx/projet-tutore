@@ -19,13 +19,12 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-const year = [
-    { label: "2018", value: "2018" },
-    { label: "2019", value: "2019" },
-    { label: "2020", value: "2020" },
+const graph = [
+    { label: "Barre", value: "Barre" },
+    { label: "Pie", value: "Pie" },
 ]
 
-export function Combobox() {
+export function ComboBoxGraphType() {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
 
@@ -39,31 +38,31 @@ export function Combobox() {
                     className="w-[200px] justify-between"
                 >
                     {value
-                        ? year.find((year) => year.value === value)?.label
-                        : "Selectionner annee"}
+                        ? graph.find((year) => year.value === value)?.label
+                        : "Selectionner graph"}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
                 <Command>
-                    <CommandInput placeholder="Rechercher année..." className="h-9" />
+                    <CommandInput placeholder="Rechercher graph..." className="h-9" />
                     <CommandList>
-                        <CommandEmpty>Aucune année trouvé.</CommandEmpty>
+                        <CommandEmpty>Aucun graph trouvé.</CommandEmpty>
                         <CommandGroup>
-                            {year.map((year) => (
+                            {graph.map((graph) => (
                                 <CommandItem
-                                    key={year.value}
-                                    value={year.value}
+                                    key={graph.value}
+                                    value={graph.value}
                                     onSelect={(currentValue) => {
                                         setValue(currentValue === value ? "" : currentValue)
                                         setOpen(false)
                                     }}
                                 >
-                                    {year.label}
+                                    {graph.label}
                                     <Check
                                         className={cn(
                                             "ml-auto",
-                                            value === year.value ? "opacity-100" : "opacity-0"
+                                            value === graph.value ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                 </CommandItem>
