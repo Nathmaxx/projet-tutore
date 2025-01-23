@@ -1,13 +1,16 @@
-import {Accordion} from "@/components/ui/accordion";
-import {AccordionItem} from "@/components/ui/accordion";
-import {AccordionTrigger} from "@/components/ui/accordion";
-import {AccordionContent} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
+import { AccordionItem } from "@/components/ui/accordion";
+import { AccordionTrigger } from "@/components/ui/accordion";
+import { AccordionContent } from "@/components/ui/accordion";
+import { Card, CardContent, CardHeader } from "./ui/card";
 
 export default function Home() {
 	return (
-		<div>
-			<p>
-				<p class={"text-2xl"}>Bienvenue, sur " "</p>
+		<Card className="w-4/5 h-fit mx-auto">
+			<CardHeader>
+				<p className={"text-2xl"}>Bienvenue, sur " "</p>
+			</CardHeader>
+			<CardContent>
 				<Accordion type="single" collapsible>
 					<AccordionItem value="item-1">
 						<AccordionTrigger>Quelle est l'objectif?</AccordionTrigger>
@@ -24,7 +27,7 @@ export default function Home() {
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>
-			</p>
-		</div>
+			</CardContent>
+		</Card>
 	);
 }

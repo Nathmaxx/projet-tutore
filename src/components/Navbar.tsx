@@ -1,17 +1,23 @@
+import { Cable } from 'lucide-react';
 import { Button } from './ui/button';
+import { Card } from './ui/card';
 
 export default function Navbar({ setCurrentPage }) {
     return (
-        <div className='flex justify-center w-fit backdrop-blur-lg mx-auto mt-4 px-2 py-1 rounded-xl shadow-lg gap-4'>
+        <Card className='flex justify-center w-fit backdrop-blur-lg mx-auto my-4 gap-2'>
             <Button variant='link' className='font-bold' onClick={() => setCurrentPage('home')}>
-                Home
+                <Cable />
+                Projet Tutoré
             </Button>
             <Button variant='link' className='font-bold' onClick={() => setCurrentPage('about')}>
                 About
             </Button>
+            <Button variant='link' className='font-bold' onClick={() => setCurrentPage('graph')}>
+                Graph
+            </Button>
             <Button variant='link' className='font-bold' onClick={() => setCurrentPage('contact')}>
                 Contact
             </Button>
-        </div>
+        </Card>
     );
 }

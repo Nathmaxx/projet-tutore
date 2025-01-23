@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Home from '../components/home';
 import About from '../components/About';
+import Graph from '../components/Graph';
 import Contact from '../components/Contact';
 
 export default function Page() {
@@ -15,6 +16,8 @@ export default function Page() {
                 return <Home />;
             case 'about':
                 return <About />;
+			case 'graph':
+				return <Graph />;
             case 'contact':
                 return <Contact />;
             default:
