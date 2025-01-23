@@ -1,12 +1,16 @@
-import {DatePickerWithRange} from "@/components/DatePickerWithRange";
+import {Combobox} from "@/components/ComboBox";
+import {Card, CardHeader} from "@/components/ui/card";
 
 export default function Carte() {
     return (
-        <div className='flex justify-center w-fit backdrop-blur-lg mx-auto mt-4 px-2 py-1 rounded-xl shadow-lg gap-4'>
-            <div className='font-bold'>
-                Page de la carte
+        <Card className="w-4/5 h-fit mx-auto">
+            <CardHeader>
+                <h1 className="text-2xl font-bold">Carte page</h1>
+            </CardHeader>
+            <div className="flex items-center space-x-4 text-sm m-10">
+                <div>Début: <Combobox /></div>
+                <div>Fin: <Combobox /></div>
             </div>
-            <DatePickerWithRange />
-        </div>
+        </Card>
     );
 }

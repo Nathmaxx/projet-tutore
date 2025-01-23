@@ -1,7 +1,9 @@
-import { Accordion } from "@/components/ui/accordion";
-import { AccordionItem } from "@/components/ui/accordion";
-import { AccordionTrigger } from "@/components/ui/accordion";
-import { AccordionContent } from "@/components/ui/accordion";
+import {
+	Accordion,
+	AccordionTrigger,
+	AccordionContent,
+	AccordionItem
+} from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader } from "./ui/card";
 
 export default function Home() {
