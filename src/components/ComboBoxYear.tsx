@@ -25,9 +25,18 @@ const year = [
     { label: "2020", value: "2020" },
 ]
 
-export function ComboBoxYear() {
+export function ComboBoxYear({ onChange }) {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
+
+    const handleSelect = (currentValue) => {
+        const newValue = currentValue === value ? "" : currentValue
+        setValue(newValue)
+        setOpen(false)
+        if (onChange) {
+            onChange(newValue)
+        }
+    }
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -48,16 +57,13 @@ export function ComboBoxYear() {
                 <Command>
                     <CommandInput placeholder="Rechercher année..." className="h-9" />
                     <CommandList>
-                        <CommandEmpty>Aucune année trouvé.</CommandEmpty>
+                        <CommandEmpty>Aucune année trouvée.</CommandEmpty>
                         <CommandGroup>
                             {year.map((year) => (
                                 <CommandItem
                                     key={year.value}
                                     value={year.value}
-                                    onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
-                                        setOpen(false)
-                                    }}
+                                    onSelect={handleSelect}
                                 >
                                     {year.label}
                                     <Check
