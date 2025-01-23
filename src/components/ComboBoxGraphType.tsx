@@ -20,8 +20,8 @@ import {
 } from "@/components/ui/popover"
 
 const graph = [
-    { label: "Barre", value: "Barre" },
-    { label: "Pie", value: "Pie" },
+    { label: "Consommation générale électricité/gaz", value: "Barre" },
+    { label: "Camembert", value: "Camembert" },
 ]
 
 export function ComboBoxGraphType({ onChange }) {
@@ -44,7 +44,7 @@ export function ComboBoxGraphType({ onChange }) {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="flex-auto justify-between"
                 >
                     {value
                         ? graph.find((year) => year.value === value)?.label
@@ -62,10 +62,7 @@ export function ComboBoxGraphType({ onChange }) {
                                 <CommandItem
                                     key={graph.value}
                                     value={graph.value}
-                                    onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
-                                        setOpen(false)
-                                    }}
+                                    onSelect={handleSelect}
                                 >
                                     {graph.label}
                                     <Check
