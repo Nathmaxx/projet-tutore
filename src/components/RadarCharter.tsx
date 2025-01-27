@@ -34,31 +34,26 @@ export const options = {
 
 const labels = ['Arondissement 1', 'Arondissement 2', 'Arondissement 3', 'Arondissement 4', 'Arondissement 5'];
 
-export function RadarCharter({startYear, endYear}) {
+export function RadarCharter({startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz}) {
     const [data, setData] = useState({
         labels,
         datasets: [
             {
                 label: 'Electricité',
                 data: [6, 9, 3, 5, 4],
-                backgroundColor: 'rgba(255, 215, 0, 0.2)',
-                borderColor: 'rgba(255, 215, 0, 0.7)',
+                backgroundColor: `rgba(${rElec}, ${gElec}, ${bElec}, ${transparencyElec})`,
+                borderColor: `rgba(${rElec}, ${gElec}, ${bElec}, ${Math.min(transparencyElec + 0.5, 1)})`,
                 borderWidth: 1,
             },
             {
                 label: 'Gaz',
                 data: [3, 2, 6, 3, 5],
-                backgroundColor: 'rgba(169, 169, 169, 0.2)',
-                borderColor: 'rgba(169, 169, 169, 0.7)',
+                backgroundColor: `rgba(${rGaz}, ${gGaz}, ${bGaz}, ${transparencyGaz})`,
+                borderColor: `rgba(${rGaz}, ${gGaz}, ${bGaz}, ${Math.min(transparencyGaz + 0.5, 1)})`,
                 borderWidth: 1,
             },
         ],
     });
-
-    /*useEffect(() => {
-        // Update the data based on startYear if needed
-        console.log(`RadarCharter updated with startYear: ${startYear}`);
-    }, [startYear]);*/
 
     return (
         <Radar options={options} data={data} />

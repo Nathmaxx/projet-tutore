@@ -34,7 +34,7 @@ export const options = {
     },
 };
 
-export function LineCharter({ startYear, endYear }) {
+export function LineCharter({ startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz }) {
     const [data, setData] = useState({ labels: [], datasets: [] });
 
     useEffect(() => {
@@ -50,15 +50,15 @@ export function LineCharter({ startYear, endYear }) {
                 {
                     label: 'Electricité',
                     data: labels.map(() => Math.floor(Math.random() * 100)),
-                    backgroundColor: 'rgba(255, 215, 0, 0.5)',
-                    borderColor: 'rgba(255, 215, 0, 0.7)',
+                    backgroundColor: `rgba(${rElec}, ${gElec}, ${bElec}, ${transparencyElec})`,
+                    borderColor: `rgba(${rElec}, ${gElec}, ${bElec}, ${Math.min(transparencyElec + 0.2, 1)})`,
                     tension: 0.3
                 },
                 {
                     label: 'Gaz',
                     data: labels.map(() => Math.floor(Math.random() * 100)),
-                    backgroundColor: 'rgba(169, 169, 169, 0.5)',
-                    borderColor: 'rgba(169, 169, 169, 0.7)',
+                    backgroundColor: `rgba(${rGaz}, ${gGaz}, ${bGaz}, ${transparencyGaz})`,
+                    borderColor: `rgba(${rGaz}, ${gGaz}, ${bGaz}, ${Math.min(transparencyGaz + 0.2, 1)})`,
                     tension: 0.3
                 },
             ];
@@ -68,7 +68,7 @@ export function LineCharter({ startYear, endYear }) {
         };
 
         fetchData();
-    }, [startYear, endYear]);
+    }, [startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz]);
 
     return (
         <Line options={options} data={data}/>

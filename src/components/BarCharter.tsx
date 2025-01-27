@@ -32,37 +32,34 @@ export const options = {
     },
 };
 
-export function BarCharter({startYear, endYear }) {
+export function BarCharter({ startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz }) {
     const [data, setData] = useState({ labels: [], datasets: [] });
 
     useEffect(() => {
         const fetchData = async () => {
-            // Generate labels based on startYear and endYear
             const labels = [];
             for (let year = startYear; year <= endYear; year++) {
                 labels.push(year.toString());
             }
 
-            // Example datasets
             const datasets = [
                 {
                     label: 'Electricité',
                     data: labels.map(() => Math.floor(Math.random() * 100)),
-                    backgroundColor: 'rgba(255, 215, 0, 0.5)',
+                    backgroundColor: `rgba(${rElec}, ${gElec}, ${bElec}, ${transparencyElec})`,
                 },
                 {
                     label: 'Gaz',
                     data: labels.map(() => Math.floor(Math.random() * 100)),
-                    backgroundColor: 'rgba(169, 169, 169, 0.5)',
+                    backgroundColor: `rgba(${rGaz}, ${gGaz}, ${bGaz}, ${transparencyGaz})`,
                 },
             ];
 
-            // Update the data state
             setData({ labels, datasets });
         };
 
         fetchData();
-    }, [startYear, endYear]);
+    }, [startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz]);
 
     return (
         <Bar options={options} data={data} />
