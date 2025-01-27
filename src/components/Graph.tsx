@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, CardHeader } from "./ui/card";
+import { Card, CardContent, CardHeader } from "./ui/card";
 import { ComboBoxYear } from "@/components/ComboBoxYear";
 import { ComboBoxGraphType } from "@/components/ComboBoxGraphType";
 import { BarCharter } from "@/components/BarCharter";
@@ -37,29 +37,36 @@ export default function Graph() {
     }, [graphType])
 
     return (
-        <Card className="w-4/5 h-fit mx-auto">
-            <CardHeader>
-                <h1 className="text-2xl font-bold">Graph page</h1>
-            </CardHeader>
+        <div className="w-full h-fit px-4">
 
-            <div className="m-3">
-                Graph type: <ComboBoxGraphType onChange={handleGraphTypeChange} />
+            <div className='flex flex-row gap-4'>
+                <Card className="w-1/3">
+                    <CardContent>
+                        <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
+                    </CardContent>
+                </Card>
+                <Card className="w-1/4">
+                    <CardContent>
+                        <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
+                    </CardContent>
+                </Card>
+
+                <Card className="w-fit">
+                    <div className="m-3">
+                        Graph type: <ComboBoxGraphType onChange={handleGraphTypeChange} />
+                    </div>
+
+                    <div className="flex items-center space-x-4 text-sm m-10">
+                        <div>Début: <ComboBoxYear value={startYear} onChange={handleStartYearChange} /></div>
+                        <div>Fin: <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear} /></div>
+                    </div>
+                </Card>
+
             </div>
 
-            <div className="m-2">
-                {graphType == "Barre" ? (
-                    <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
-                ) : (
-                    <div>Graph type not supported</div>
-                )}
-            </div>
 
-            <div className="flex items-center space-x-4 text-sm m-10">
-                <div>Début: <ComboBoxYear value={startYear} onChange={handleStartYearChange} /></div>
-                <div>Fin: <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear} /></div>
-            </div>
 
             {error && <div className="text-red-500">{error}</div>}
-        </Card>
+        </div>
     );
 }

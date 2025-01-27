@@ -9,6 +9,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { Card, CardContent, CardHeader } from './ui/card';
 
 ChartJS.register(
     CategoryScale,
