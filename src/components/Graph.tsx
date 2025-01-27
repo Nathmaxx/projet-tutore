@@ -37,7 +37,7 @@ export default function Graph() {
     }, [graphType])
 
     return (
-        <div className="w-full h-fit px-4">
+        <div className="w-full h-fit px-4 flex flex-col gap-4">
 
             <div className='flex flex-row gap-4'>
                 <Card className="w-1/3">
@@ -55,16 +55,32 @@ export default function Graph() {
                     <div className="m-3">
                         Graph type: <ComboBoxGraphType onChange={handleGraphTypeChange} />
                     </div>
-
                     <div className="flex items-center space-x-4 text-sm m-10">
                         <div>Début: <ComboBoxYear value={startYear} onChange={handleStartYearChange} /></div>
                         <div>Fin: <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear} /></div>
                     </div>
                 </Card>
-
             </div>
 
-
+            <div className='flex flex-row-reverse gap-4 h-[68vh]'>
+                <Card className="w-1/3 h-full">
+                    <CardContent>
+                        Diagramme camembert des arrondissements
+                    </CardContent>
+                </Card>
+                <div className='flex flex-col gap-4 w-2/3'>
+                    <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
+                        <CardContent>
+                            <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
+                        </CardContent>
+                    </Card>
+                    <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
+                        <CardContent>
+                            <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
 
             {error && <div className="text-red-500">{error}</div>}
         </div>
