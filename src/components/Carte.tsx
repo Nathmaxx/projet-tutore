@@ -32,7 +32,7 @@ export default function Carte() {
     }, [API_KEY, viewState]);
 
     return (
-        <Card className="w-4/5 h-fit mx-auto">
+        <Card className="w-4/5 h-fit m-auto">
             <CardHeader>
                 <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
             </CardHeader>
