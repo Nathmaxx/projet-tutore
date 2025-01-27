@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    BarElement,
+    PointElement,
+    LineElement,
     Title,
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
     CategoryScale,
     LinearScale,
-    BarElement,
+    PointElement,
+    LineElement,
     Title,
     Tooltip,
     Legend
@@ -27,12 +29,12 @@ export const options = {
         },
         title: {
             display: true,
-            text: 'Graphique en Barre',
+            text: 'Graphique en Ligne',
         },
     },
 };
 
-export function BarCharter({startYear, endYear }) {
+export function LineCharter({ startYear, endYear }) {
     const [data, setData] = useState({ labels: [], datasets: [] });
 
     useEffect(() => {
@@ -49,11 +51,15 @@ export function BarCharter({startYear, endYear }) {
                     label: 'Electricité',
                     data: labels.map(() => Math.floor(Math.random() * 100)),
                     backgroundColor: 'rgba(255, 215, 0, 0.5)',
+                    borderColor: 'rgba(255, 215, 0, 0.7)',
+                    tension: 0.3
                 },
                 {
                     label: 'Gaz',
                     data: labels.map(() => Math.floor(Math.random() * 100)),
                     backgroundColor: 'rgba(169, 169, 169, 0.5)',
+                    borderColor: 'rgba(169, 169, 169, 0.7)',
+                    tension: 0.3
                 },
             ];
 
@@ -65,6 +71,6 @@ export function BarCharter({startYear, endYear }) {
     }, [startYear, endYear]);
 
     return (
-        <Bar options={options} data={data} />
+        <Line options={options} data={data}/>
     );
 }
