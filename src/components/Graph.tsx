@@ -7,6 +7,7 @@ import { RadarCharter } from './RadarCharter';
 import { DoughnutCharter } from './DoughnutCharter';
 import { LineChart } from 'lucide-react';
 import { LineCharter } from './LineCharter';
+import { Label } from './ui/label';
 
 export default function Graph() {
     const [startYear, setStartYear] = useState("2018");
@@ -43,26 +44,36 @@ export default function Graph() {
     return (
         <div className="w-full h-full px-4 flex flex-col gap-4">
 
-            <div className='flex flex-row gap-4 h-1/5'>
+            <div className='flex flex-row gap-4 h-1/6'>
                 <Card className="w-1/3">
                     <CardContent>
                         <BarCharter startYear={startYear} endYear={endYear} />
                     </CardContent>
                 </Card>
-                <Card className="w-1/4">
+
+                <Card className="w-full overflow-hidden">
                     <CardContent>
                         <BarCharter startYear={startYear} endYear={endYear} />
                     </CardContent>
                 </Card>
+
                 <Card className="w-fit">
-                    <div className="m-3">
-                        Graph type: <ComboBoxGraphType onChange={handleGraphTypeChange} />
-                    </div>
-                    <div className="flex items-center space-x-4 text-sm m-10">
-                        <div>Début: <ComboBoxYear value={startYear} onChange={handleStartYearChange} /></div>
-                        <div>Fin: <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear} /></div>
+                    <div className="flex flex-col items-center gap-4 text-sm m-10">
+                        <div className='flex flex-row items-center gap-2'>
+                            <p className='min-w-12'>
+                                Début:
+                            </p>
+                            <ComboBoxYear value={startYear} onChange={handleStartYearChange} />
+                        </div>
+                        <div className='flex flex-row items-center gap-2'>
+                            <p className='min-w-12'>
+                                Fin:
+                            </p>
+                            <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear} />
+                        </div>
                     </div>
                 </Card>
+
             </div>
 
             <div className='flex flex-row-reverse gap-4 h-4/5'>
@@ -73,7 +84,7 @@ export default function Graph() {
                 </Card>
                 <div className='flex flex-col gap-4 w-2/3'>
                     <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
-                        <CardContent>
+                        <CardContent className='mt-4'>
                             <LineCharter startYear={startYear} endYear={endYear} />
                         </CardContent>
                     </Card>

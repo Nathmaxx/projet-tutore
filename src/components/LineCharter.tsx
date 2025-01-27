@@ -26,11 +26,36 @@ export const options = {
     plugins: {
         legend: {
             position: 'top' as const,
+            font: {
+                family: 'monospace'
+            }
         },
         title: {
             display: true,
             text: 'Graphique en Ligne',
+            font: {
+                family: 'monospace'
+            }
         },
+        font: {
+            family: 'monospace'
+        }
+    },
+    scales: {
+        x: {
+            ticks: {
+                font: {
+                    family: 'monospace'
+                }
+            }
+        },
+        y: {
+            ticks: {
+                font: {
+                    family: 'monospace'
+                }
+            }
+        }
     },
 };
 
