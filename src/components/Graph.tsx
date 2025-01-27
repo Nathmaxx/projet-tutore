@@ -78,12 +78,13 @@ export default function Graph() {
             </div>
 
             <div className='flex flex-row-reverse gap-4 h-min'>
-                <Card className="w-1/3 h-full">
+                <Card className="w-1/3 lg:w-1/2 h-full">
                     <CardContent>
 
                     </CardContent>
                 </Card>
-                <div className='flex flex-col gap-4 w-2/3'>
+
+                <div className='flex flex-col gap-4 w-2/3 lg:w-1/2'>
 
                     <Card className="w-full" style={{height: '-webkit-fill-available'}}>
                         <CardContent className='mt-4'>
@@ -95,7 +96,7 @@ export default function Graph() {
                     </Card>
 
                     <div className="flex flex-row gap-4">
-                        <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                        <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
                             <CardContent>
                                 <RadarCharter startYear={startYear} endYear={endYear}
                                               rElec={rElec} gElec={gElec} bElec={bElec}
@@ -104,7 +105,7 @@ export default function Graph() {
                                 />
                             </CardContent>
                         </Card>
-                        <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                        <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
                             <CardContent>
                                 <DoughnutCharter startYear={startYear} endYear={endYear}/>
                             </CardContent>
