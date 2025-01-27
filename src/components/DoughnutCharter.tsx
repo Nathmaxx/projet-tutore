@@ -5,7 +5,7 @@ import {
     Tooltip,
     Legend
 } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(
     ArcElement,
@@ -27,7 +27,7 @@ export const options = {
 
 const labels = ['Industrie', 'Habitations', 'Publique'];
 
-export function PieCharter({startYear, endYear }) {
+export function DoughnutCharter({startYear, endYear }) {
     const [data, setData] = useState({
         labels,
         datasets: [
@@ -56,6 +56,6 @@ export function PieCharter({startYear, endYear }) {
 });
 
     return (
-        <Pie options={options} data={data} />
+        <Doughnut options={options} data={data} />
     );
 }
