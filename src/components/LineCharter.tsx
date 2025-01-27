@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -71,6 +71,6 @@ export function LineCharter({ startYear, endYear }) {
     }, [startYear, endYear]);
 
     return (
-        <Line options={options} data={data}/>
+        <Line options={options} data={data} className='max-h-64 w-full'/>
     );
 }

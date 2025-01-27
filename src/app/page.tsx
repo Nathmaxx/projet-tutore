@@ -29,12 +29,12 @@ export default function Page() {
 	};
 
 	return (
-		<div className='w-full h-full flex flex-col justify-between overflow-x-hidden'>
+		<div className='w-full h-screen flex flex-col justify-between overflow-hidden'>
 			<div className="absolute h-screen w-screen -z-10 overflow-hidden">
 				<AnimatedNoise opacity={0.07} />
 			</div>
 			<Navbar setCurrentPage={setCurrentPage} />
-			<div className='flex-grow'>
+			<div className='flex-grow h-full'>
 				{renderPage()}
 			</div>
 			<Footer />

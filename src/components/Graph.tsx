@@ -3,6 +3,10 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { ComboBoxYear } from "@/components/ComboBoxYear";
 import { ComboBoxGraphType } from "@/components/ComboBoxGraphType";
 import { BarCharter } from "@/components/BarCharter";
+import { RadarCharter } from './RadarCharter';
+import { DoughnutCharter } from './DoughnutCharter';
+import { LineChart } from 'lucide-react';
+import { LineCharter } from './LineCharter';
 
 export default function Graph() {
     const [startYear, setStartYear] = useState("2018");
@@ -37,20 +41,19 @@ export default function Graph() {
     }, [graphType])
 
     return (
-        <div className="w-full h-fit px-4 flex flex-col gap-4">
+        <div className="w-full h-full px-4 flex flex-col gap-4">
 
-            <div className='flex flex-row gap-4'>
+            <div className='flex flex-row gap-4 h-1/5'>
                 <Card className="w-1/3">
                     <CardContent>
-                        <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
+                        <BarCharter startYear={startYear} endYear={endYear} />
                     </CardContent>
                 </Card>
                 <Card className="w-1/4">
                     <CardContent>
-                        <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
+                        <BarCharter startYear={startYear} endYear={endYear} />
                     </CardContent>
                 </Card>
-
                 <Card className="w-fit">
                     <div className="m-3">
                         Graph type: <ComboBoxGraphType onChange={handleGraphTypeChange} />
@@ -62,23 +65,30 @@ export default function Graph() {
                 </Card>
             </div>
 
-            <div className='flex flex-row-reverse gap-4 h-[68vh]'>
+            <div className='flex flex-row-reverse gap-4 h-4/5'>
                 <Card className="w-1/3 h-full">
                     <CardContent>
-                        Diagramme camembert des arrondissements
+
                     </CardContent>
                 </Card>
                 <div className='flex flex-col gap-4 w-2/3'>
                     <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
                         <CardContent>
-                            <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
+                            <LineCharter startYear={startYear} endYear={endYear} />
                         </CardContent>
                     </Card>
-                    <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
-                        <CardContent>
-                            <BarCharter graphType={graphType} startYear={startYear} endYear={endYear} />
-                        </CardContent>
-                    </Card>
+                    <div className="flex flex-row gap-4">
+                        <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
+                            <CardContent>
+                                <RadarCharter startYear={startYear} endYear={endYear} />
+                            </CardContent>
+                        </Card>
+                        <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
+                            <CardContent>
+                                <DoughnutCharter startYear={startYear} endYear={endYear} />
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
             </div>
 
