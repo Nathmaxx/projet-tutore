@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { ComboBoxYear } from "@/components/ComboBoxYear";
-import { BarCharter } from "@/components/BarCharter";
-import { RadarCharter } from './RadarCharter';
-import { DoughnutCharter } from './DoughnutCharter';
+import {useState, useEffect} from 'react';
+import {Card, CardContent, CardHeader} from "./ui/card";
+import {ComboBoxYear} from "@/components/ComboBoxYear";
+import {BarCharter} from "@/components/BarCharter";
+import {RadarCharter} from './RadarCharter';
+import {DoughnutCharter} from './DoughnutCharter';
 import {LineCharter} from "@/components/LineCharter";
 
 const rElec = 115;
@@ -15,7 +15,6 @@ const rGaz = 255;
 const gGaz = 183;
 const bGaz = 52;
 const transparencyGaz = 0.5;
-import { Label } from './ui/label';
 
 export default function Graph() {
     const [startYear, setStartYear] = useState("2018");
@@ -43,7 +42,7 @@ export default function Graph() {
     return (
         <div className="w-full h-full px-4 flex flex-col gap-4">
 
-            <div className='flex flex-row gap-4 h-1/6'>
+            <div className='flex flex-row gap-4 h-1/5'>
                 <Card className="w-1/3">
                     <CardContent>
                         <BarCharter startYear={startYear} endYear={endYear}
@@ -55,7 +54,7 @@ export default function Graph() {
 
                 <Card className="w-full overflow-hidden">
                     <CardContent>
-                        <BarCharter startYear={startYear} endYear={endYear} />
+                        <BarCharter startYear={startYear} endYear={endYear}/>
                     </CardContent>
                 </Card>
 
@@ -65,27 +64,28 @@ export default function Graph() {
                             <p className='min-w-12'>
                                 Début:
                             </p>
-                            <ComboBoxYear value={startYear} onChange={handleStartYearChange} />
+                            <ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
                         </div>
                         <div className='flex flex-row items-center gap-2'>
                             <p className='min-w-12'>
                                 Fin:
                             </p>
-                            <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear} />
+                            <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
                         </div>
                     </div>
                 </Card>
 
             </div>
 
-            <div className='flex flex-row-reverse gap-4 h-4/5'>
+            <div className='flex flex-row-reverse gap-4 h-min'>
                 <Card className="w-1/3 h-full">
                     <CardContent>
 
                     </CardContent>
                 </Card>
                 <div className='flex flex-col gap-4 w-2/3'>
-                    <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
+
+                    <Card className="w-full" style={{height: '-webkit-fill-available'}}>
                         <CardContent className='mt-4'>
                             <LineCharter startYear={startYear} endYear={endYear}
                                          rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
@@ -93,18 +93,20 @@ export default function Graph() {
                             />
                         </CardContent>
                     </Card>
+
                     <div className="flex flex-row gap-4">
-                        <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
+                        <Card className="w-full" style={{height: '-webkit-fill-available'}}>
                             <CardContent>
                                 <RadarCharter startYear={startYear} endYear={endYear}
-                                              rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
+                                              rElec={rElec} gElec={gElec} bElec={bElec}
+                                              transparencyElec={transparencyElec}
                                               rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
                                 />
                             </CardContent>
                         </Card>
-                        <Card className="w-full" style={{ height: '-webkit-fill-available' }}>
+                        <Card className="w-full" style={{height: '-webkit-fill-available'}}>
                             <CardContent>
-                                <DoughnutCharter startYear={startYear} endYear={endYear} />
+                                <DoughnutCharter startYear={startYear} endYear={endYear}/>
                             </CardContent>
                         </Card>
                     </div>
