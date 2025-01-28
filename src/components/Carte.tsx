@@ -102,7 +102,7 @@ export default function Carte() {
                                 newMarkers.push(marker);
                                 markerCount++;
                             } else {
-                                console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
+                                //console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
                             }
                         }
                     });
