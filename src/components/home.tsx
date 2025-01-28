@@ -7,7 +7,7 @@ import {
 import {Card, CardContent, CardHeader} from "./ui/card";
 import Image from "next/image";
 
-import MyImage from "../img/Carte_Métropole_du_Grand_Lyon.png";
+import MyImage from "../img/Carte_Métropole_du_Grand_Lyon.png";
 
 export default function Home() {
     return (
