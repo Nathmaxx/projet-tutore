@@ -11,8 +11,8 @@ export default function Carte() {
     const [MAP_SKIN_API_KEY] = useState('INdXbZgYY8GqK1IGryTJ');
     const mapContainer = useRef(null);
     const [viewState] = useState<{ center: [number, number]; zoom: number; pitch: number }>({
-        center: [5.0000, 45.7667],
-        zoom: 10,
+        center: [4.83397, 45.76748],
+        zoom: 12,
         pitch: 40
     });
 
@@ -136,7 +136,7 @@ export default function Carte() {
                             </select>
                         </div>
                     </div>
-                    <div ref={mapContainer} className="w-full h-96 rounded-lg" />
+                    <div ref={mapContainer} className="w-full h-[600px] rounded-lg" />
                 </CardContent>
             </Card>
         </div>
