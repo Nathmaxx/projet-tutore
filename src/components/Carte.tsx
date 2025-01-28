@@ -8,6 +8,7 @@ const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
 
 export default function Carte() {
+    const [MAP_SKIN_API_KEY] = useState('INdXbZgYY8GqK1IGryTJ');
     const mapContainer = useRef(null);
     const [viewState] = useState<{ center: [number, number]; zoom: number; pitch: number }>({
         center: [5.0000, 45.7667],
@@ -19,7 +20,7 @@ export default function Carte() {
         if (mapContainer.current) {
             const map = new maplibregl.Map({
                 container: mapContainer.current,
-                style: `https://api.maptiler.com/maps/toner-v2/style.json?key=${API_KEY}`,
+                style: `https://api.maptiler.com/maps/toner-v2/style.json?key=${MAP_SKIN_API_KEY}`,
                 center: viewState.center,
                 zoom: viewState.zoom,
                 pitch: viewState.pitch
