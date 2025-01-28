@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {Card, CardContent, CardHeader, CardTitle} from "./ui/card";
 import {ComboBoxYear} from "@/components/ComboBoxYear";
 import {BarCharter} from "@/components/BarCharter";
