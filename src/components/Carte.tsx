@@ -32,11 +32,9 @@ export default function Carte() {
 
             return () => map.remove();
         }
-    }, [API_KEY, viewState]);
+    }, [MAP_SKIN_API_KEY, viewState]);
 
     useEffect(() => {
-        console.log("API_URL", API_URL);
-        console.log("API_KEY", API_KEY);
         const fetchData = async () => {
             const tokenOptions = {
                 method: 'GET',
@@ -53,13 +51,34 @@ export default function Carte() {
                 }
                 const data = await response.json();
                 console.log(data);
+
+                if (mapContainer.current) {
+                    const map = new maplibregl.Map({
+                        container: mapContainer.current,
+                        style: `https://api.maptiler.com/maps/toner-v2/style.json?key=${MAP_SKIN_API_KEY}`,
+                        center: viewState.center,
+                        zoom: viewState.zoom,
+                        pitch: viewState.pitch
+                    });
+
+                    data.forEach((parcelle: any) => {
+                        const coordinates = JSON.parse(parcelle.coordinates);
+                        if(coordinates.lng && coordinates.lat){
+                            new maplibregl.Marker()
+                                .setLngLat([parseFloat(coordinates.lng), parseFloat(coordinates.lat)])
+                                .addTo(map);
+                        }
+                    });
+
+                    return () => map.remove();
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [API_KEY, MAP_SKIN_API_KEY, viewState]);
 
     return (
         <div className="w-full h-full px-4">
