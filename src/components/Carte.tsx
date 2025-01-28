@@ -1,8 +1,8 @@
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import {Card, CardContent, CardHeader} from './ui/card';
-import {ComboBoxYear} from './ComboBoxYear';
+import { Card, CardContent, CardHeader } from './ui/card';
+import { ComboBoxYear } from './ComboBoxYear';
 
 const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
@@ -18,18 +18,21 @@ export default function Carte() {
 
     const [communes, setCommunes] = useState<string[]>([]);
     const [selectedCommune, setSelectedCommune] = useState<string>('');
+    const [map, setMap] = useState<maplibregl.Map | null>(null);
+    const [markers, setMarkers] = useState<maplibregl.Marker[]>([]);
 
     useEffect(() => {
         if (mapContainer.current) {
-            const map = new maplibregl.Map({
+            const mapInstance = new maplibregl.Map({
                 container: mapContainer.current,
                 style: `https://api.maptiler.com/maps/toner-v2/style.json?key=${MAP_SKIN_API_KEY}`,
                 center: viewState.center,
                 zoom: viewState.zoom,
                 pitch: viewState.pitch
             });
+            setMap(mapInstance);
 
-            return () => map.remove();
+            return () => mapInstance.remove();
         }
     }, [MAP_SKIN_API_KEY, viewState]);
 
@@ -54,34 +57,27 @@ export default function Carte() {
                 const uniqueCommunes = Array.from(new Set(data.map((parcelle: any) => parcelle.commune)));
                 setCommunes(uniqueCommunes);
 
-                if (mapContainer.current) {
-                    const map = new maplibregl.Map({
-                        container: mapContainer.current,
-                        style: `https://api.maptiler.com/maps/toner-v2/style.json?key=${MAP_SKIN_API_KEY}`,
-                        center: viewState.center,
-                        zoom: viewState.zoom,
-                        pitch: viewState.pitch
-                    });
-
+                if (map) {
                     let markerCount = 0;
-                    for (const parcelle of data) {
-                        if (markerCount >= 500) break;
+                    const newMarkers: maplibregl.Marker[] = [];
+                    data.forEach((parcelle: any) => {
+                        if (markerCount >= 500) return;
 
                         const coordinates = JSON.parse(parcelle.coordinates);
                         const lng = parseFloat(coordinates.lng);
                         const lat = parseFloat(coordinates.lat);
 
                         if (!isNaN(lng) && !isNaN(lat)) {
-                            new maplibregl.Marker()
+                            const marker = new maplibregl.Marker()
                                 .setLngLat([lng, lat])
                                 .addTo(map);
+                            newMarkers.push(marker);
                             markerCount++;
                         } else {
                             console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
                         }
-                    }
-
-                    return () => map.remove();
+                    });
+                    setMarkers(newMarkers);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -89,7 +85,59 @@ export default function Carte() {
         };
 
         fetchData();
-    }, [viewState]);
+    }, [API_KEY, MAP_SKIN_API_KEY, viewState, map]);
+
+    useEffect(() => {
+        if (map) {
+            markers.forEach(marker => marker.remove());
+
+            const fetchData = async () => {
+                const tokenOptions = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${API_KEY}`,
+                    },
+                };
+
+                try {
+                    const response = await fetch(`${API_URL}parcelles`, tokenOptions);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    console.log(data);
+
+                    let markerCount = 0;
+                    const newMarkers: maplibregl.Marker[] = [];
+                    data.forEach((parcelle: any) => {
+                        if (markerCount >= 500) return;
+
+                        if (parcelle.commune === selectedCommune || selectedCommune === '') {
+                            const coordinates = JSON.parse(parcelle.coordinates);
+                            const lng = parseFloat(coordinates.lng);
+                            const lat = parseFloat(coordinates.lat);
+
+                            if (!isNaN(lng) && !isNaN(lat)) {
+                                const marker = new maplibregl.Marker()
+                                    .setLngLat([lng, lat])
+                                    .addTo(map);
+                                newMarkers.push(marker);
+                                markerCount++;
+                            } else {
+                                console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
+                            }
+                        }
+                    });
+                    setMarkers(newMarkers);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            };
+
+            fetchData();
+        }
+    }, [selectedCommune, map]);
 
     return (
         <div className="w-full h-full px-4">
@@ -99,10 +147,8 @@ export default function Carte() {
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center space-x-4 text-sm m-4">
-                        <div>Début: <ComboBoxYear onChange={() => {
-                        }}/></div>
-                        <div>Fin: <ComboBoxYear onChange={() => {
-                        }}/></div>
+                        <div>Début: <ComboBoxYear onChange={() => { }} /></div>
+                        <div>Fin: <ComboBoxYear onChange={() => { }} /></div>
                         <div>
                             Commune:
                             <select value={selectedCommune} onChange={(e) => setSelectedCommune(e.target.value)}>
@@ -113,7 +159,7 @@ export default function Carte() {
                             </select>
                         </div>
                     </div>
-                    <div ref={mapContainer} className="w-full h-96 rounded-lg"/>
+                    <div ref={mapContainer} className="w-full h-96 rounded-lg" />
                 </CardContent>
             </Card>
         </div>
