@@ -44,7 +44,7 @@ export default function Page() {
     };
 
     return (
-        <div className='w-full h-screen flex flex-col justify-between overflow-hidden'>
+        <div className='w-full h-screen flex flex-col justify-between overflow-x-hidden'>
             <div className="absolute h-screen w-screen -z-10 overflow-hidden">
                 <AnimatedNoise opacity={0.07} />
             </div>
