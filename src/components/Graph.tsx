@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Card, CardContent, CardHeader} from "./ui/card";
+import {Card, CardContent, CardHeader, CardTitle} from "./ui/card";
 import {ComboBoxYear} from "@/components/ComboBoxYear";
 import {BarCharter} from "@/components/BarCharter";
 import {RadarCharter} from './RadarCharter';
@@ -54,7 +54,7 @@ export default function Graph() {
 
                 <Card className="w-full overflow-hidden">
                     <CardContent>
-                        <BarCharter startYear={startYear} endYear={endYear}/>
+                        PLACEHOLDER
                     </CardContent>
                 </Card>
 
@@ -87,6 +87,9 @@ export default function Graph() {
                 <div className='flex flex-col gap-4 w-2/3 lg:w-1/2'>
 
                     <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                        <CardHeader>
+                            <CardTitle>Consommation d'énergie</CardTitle>
+                        </CardHeader>
                         <CardContent className='mt-4'>
                             <LineCharter startYear={startYear} endYear={endYear}
                                          rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
