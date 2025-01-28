@@ -22,14 +22,14 @@ export default function Home() {
                         <AccordionTrigger>Quel est l&apos;objectif?</AccordionTrigger>
                         <AccordionContent>
                             Permettre l&apos;analyse facile de données en rapport avec
-                            la consommation d&apos;électricité dans la métropole de Grand Lyon.
+                            la consommation d&apos;électricité et gaz dans la métropole de Grand Lyon.
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value={"item-2"}>
                         <AccordionTrigger>Quelles analyses sont à disposition?</AccordionTrigger>
                         <AccordionContent>
                             On propose une analyse sous forme d&apos;une carte interactive puis
-                            une analyse sous forme de graphique.
+                            une analyse sous forme de plusieurs graphique.
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
