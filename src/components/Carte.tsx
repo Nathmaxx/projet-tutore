@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Card, CardContent, CardHeader } from './ui/card';
-import { ComboBoxYear } from './ComboBoxYear';
+import {Card, CardContent, CardHeader} from './ui/card';
+import {ComboBoxYear} from './ComboBoxYear';
 
 const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
@@ -15,6 +15,9 @@ export default function Carte() {
         zoom: 10,
         pitch: 40
     });
+
+    const [communes, setCommunes] = useState<string[]>([]);
+    const [selectedCommune, setSelectedCommune] = useState<string>('');
 
     useEffect(() => {
         if (mapContainer.current) {
@@ -47,6 +50,9 @@ export default function Carte() {
                 }
                 const data = await response.json();
                 console.log(data);
+
+                const uniqueCommunes = Array.from(new Set(data.map((parcelle: any) => parcelle.commune)));
+                setCommunes(uniqueCommunes);
 
                 if (mapContainer.current) {
                     const map = new maplibregl.Map({
@@ -83,7 +89,7 @@ export default function Carte() {
         };
 
         fetchData();
-    }, [API_KEY, MAP_SKIN_API_KEY, viewState]);
+    }, [viewState]);
 
     return (
         <div className="w-full h-full px-4">
@@ -93,10 +99,21 @@ export default function Carte() {
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center space-x-4 text-sm m-4">
-                        <div>Début: <ComboBoxYear onChange={() => { }} /></div>
-                        <div>Fin: <ComboBoxYear onChange={() => { }} /></div>
+                        <div>Début: <ComboBoxYear onChange={() => {
+                        }}/></div>
+                        <div>Fin: <ComboBoxYear onChange={() => {
+                        }}/></div>
+                        <div>
+                            Commune:
+                            <select value={selectedCommune} onChange={(e) => setSelectedCommune(e.target.value)}>
+                                <option value="">All</option>
+                                {communes.map((commune) => (
+                                    <option key={commune} value={commune}>{commune}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
-                    <div ref={mapContainer} className="w-full h-96 rounded-lg" />
+                    <div ref={mapContainer} className="w-full h-96 rounded-lg"/>
                 </CardContent>
             </Card>
         </div>
