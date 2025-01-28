@@ -57,7 +57,10 @@ export default function Carte() {
                         pitch: viewState.pitch
                     });
 
-                    data.forEach((parcelle: any) => {
+                    let markerCount = 0;
+                    for (const parcelle of data) {
+                        if (markerCount >= 500) break;
+
                         const coordinates = JSON.parse(parcelle.coordinates);
                         const lng = parseFloat(coordinates.lng);
                         const lat = parseFloat(coordinates.lat);
@@ -66,10 +69,11 @@ export default function Carte() {
                             new maplibregl.Marker()
                                 .setLngLat([lng, lat])
                                 .addTo(map);
+                            markerCount++;
                         } else {
                             console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
                         }
-                    });
+                    }
 
                     return () => map.remove();
                 }
