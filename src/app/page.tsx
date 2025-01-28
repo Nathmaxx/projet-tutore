@@ -52,7 +52,7 @@ export default function Page() {
             <div className='flex-grow h-full'>
                 {renderPage()}
             </div>
-            {currentPage !== 'graph' && <Footer />}
+            <Footer />
         </div>
     );
 }

@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Card, CardContent, CardHeader } from './ui/card';
-import { ComboBoxYear } from './ComboBoxYear';
+import {Card, CardContent, CardHeader} from './ui/card';
+import {ComboBoxYear} from './ComboBoxYear';
 
 export default function Carte() {
     const mapContainer = useRef(null);
@@ -32,17 +32,21 @@ export default function Carte() {
     }, [API_KEY, viewState]);
 
     return (
-        <Card className="w-4/5 h-fit m-auto">
-            <CardHeader>
-                <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
-            </CardHeader>
-            <CardContent>
-                <div className="flex items-center space-x-4 text-sm m-4">
-                    <div>Début: <ComboBoxYear onChange={() => {}} /></div>
-                    <div>Fin: <ComboBoxYear onChange={() => {}} /></div>
-                </div>
-                <div ref={mapContainer} className="w-full h-96 rounded-lg" />
-            </CardContent>
-        </Card>
+        <div className="w-full h-full px-4">
+            <Card className="w-full h-full">
+                <CardHeader>
+                    <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex items-center space-x-4 text-sm m-4">
+                        <div>Début: <ComboBoxYear onChange={() => {
+                        }}/></div>
+                        <div>Fin: <ComboBoxYear onChange={() => {
+                        }}/></div>
+                    </div>
+                    <div ref={mapContainer} className="w-full h-96 rounded-lg"/>
+                </CardContent>
+            </Card>
+        </div>
     );
 }
