@@ -42,7 +42,7 @@ export default function Graph() {
     return (
         <div className="w-full h-full px-4 flex flex-col gap-4">
 
-            <div className='flex flex-row gap-4 h-1/5'>
+            <div className='flex flex-row gap-4 h-1/5 hidden'>
                 <Card className="w-1/3">
                     <CardContent>
                         <BarCharter startYear={startYear} endYear={endYear}
@@ -78,9 +78,14 @@ export default function Graph() {
             </div>
 
             <div className='flex flex-row-reverse gap-4 h-min'>
+
                 <Card className="w-1/3 lg:w-1/2 h-full">
                     <CardContent>
-
+                        <RadarCharter startYear={startYear} endYear={endYear}
+                                      rElec={rElec} gElec={gElec} bElec={bElec}
+                                      transparencyElec={transparencyElec}
+                                      rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
+                        />
                     </CardContent>
                 </Card>
 
@@ -115,7 +120,12 @@ export default function Graph() {
                         </Card>
                     </div>
                 </div>
+
             </div>
+
+            <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                TEST
+            </Card>
 
             {error && <div className="text-red-500">{error}</div>}
         </div>
