@@ -1,12 +1,14 @@
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import {Card, CardContent, CardHeader} from './ui/card';
-import {ComboBoxYear} from './ComboBoxYear';
+import { Card, CardContent, CardHeader } from './ui/card';
+import { ComboBoxYear } from './ComboBoxYear';
+
+const API_URL = process.env.API_URL;
+const API_KEY = process.env.NRG_LYON_API_KEY;
 
 export default function Carte() {
     const mapContainer = useRef(null);
-    const [API_KEY] = useState('INdXbZgYY8GqK1IGryTJ');
     const [viewState] = useState<{ center: [number, number]; zoom: number; pitch: number }>({
         center: [5.0000, 45.7667],
         zoom: 10,
@@ -31,6 +33,33 @@ export default function Carte() {
         }
     }, [API_KEY, viewState]);
 
+    useEffect(() => {
+        console.log("API_URL", API_URL);
+        console.log("API_KEY", API_KEY);
+        const fetchData = async () => {
+            const tokenOptions = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${API_KEY}`,
+                },
+            };
+
+            try {
+                const response = await fetch(`${API_URL}parcelles`, tokenOptions);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <div className="w-full h-full px-4">
             <Card className="w-full h-full">
@@ -39,12 +68,10 @@ export default function Carte() {
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center space-x-4 text-sm m-4">
-                        <div>Début: <ComboBoxYear onChange={() => {
-                        }}/></div>
-                        <div>Fin: <ComboBoxYear onChange={() => {
-                        }}/></div>
+                        <div>Début: <ComboBoxYear onChange={() => { }} /></div>
+                        <div>Fin: <ComboBoxYear onChange={() => { }} /></div>
                     </div>
-                    <div ref={mapContainer} className="w-full h-96 rounded-lg"/>
+                    <div ref={mapContainer} className="w-full h-96 rounded-lg" />
                 </CardContent>
             </Card>
         </div>

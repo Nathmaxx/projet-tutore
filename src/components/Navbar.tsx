@@ -8,7 +8,7 @@ interface NavbarProps {
 
 export default function Navbar({ setCurrentPage }: NavbarProps) {
     return (
-        <Card className='flex justify-center w-fit backdrop-blur-lg mx-auto my-4 gap-2'>
+        <Card className='flex text-3xl justify-center w-fit backdrop-blur-lg mx-auto my-4 gap-2'>
             <Button variant='link' className='font-bold tracking-tighter' onClick={() => setCurrentPage('home')}>
                 <Cable />
                 PROJET TUTORÉ
