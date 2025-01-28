@@ -26,10 +26,6 @@ export default function Carte() {
                 pitch: viewState.pitch
             });
 
-            const marker = new maplibregl.Marker()
-                .setLngLat([5.0000, 45.7667])
-                .addTo(map);
-
             return () => map.remove();
         }
     }, [MAP_SKIN_API_KEY, viewState]);
@@ -63,10 +59,15 @@ export default function Carte() {
 
                     data.forEach((parcelle: any) => {
                         const coordinates = JSON.parse(parcelle.coordinates);
-                        if(coordinates.lng && coordinates.lat){
+                        const lng = parseFloat(coordinates.lng);
+                        const lat = parseFloat(coordinates.lat);
+
+                        if (!isNaN(lng) && !isNaN(lat)) {
                             new maplibregl.Marker()
-                                .setLngLat([parseFloat(coordinates.lng), parseFloat(coordinates.lat)])
+                                .setLngLat([lng, lat])
                                 .addTo(map);
+                        } else {
+                            console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
                         }
                     });
 
