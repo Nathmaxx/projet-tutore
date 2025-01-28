@@ -56,39 +56,16 @@ export default function Carte() {
 
                 const uniqueCommunes = Array.from(new Set(data.map((parcelle: any) => parcelle.commune)));
                 setCommunes(uniqueCommunes);
-
-                if (map) {
-                    let markerCount = 0;
-                    const newMarkers: maplibregl.Marker[] = [];
-                    data.forEach((parcelle: any) => {
-                        if (markerCount >= 500) return;
-
-                        const coordinates = JSON.parse(parcelle.coordinates);
-                        const lng = parseFloat(coordinates.lng);
-                        const lat = parseFloat(coordinates.lat);
-
-                        if (!isNaN(lng) && !isNaN(lat)) {
-                            const marker = new maplibregl.Marker()
-                                .setLngLat([lng, lat])
-                                .addTo(map);
-                            newMarkers.push(marker);
-                            markerCount++;
-                        } else {
-                            console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
-                        }
-                    });
-                    setMarkers(newMarkers);
-                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
         fetchData();
-    }, [API_KEY, MAP_SKIN_API_KEY, viewState, map]);
+    }, [API_KEY]);
 
     useEffect(() => {
-        if (map) {
+        if (map && selectedCommune) {
             markers.forEach(marker => marker.remove());
 
             const fetchData = async () => {
@@ -113,7 +90,7 @@ export default function Carte() {
                     data.forEach((parcelle: any) => {
                         if (markerCount >= 500) return;
 
-                        if (parcelle.commune === selectedCommune || selectedCommune === '') {
+                        if (parcelle.commune === selectedCommune) {
                             const coordinates = JSON.parse(parcelle.coordinates);
                             const lng = parseFloat(coordinates.lng);
                             const lat = parseFloat(coordinates.lat);
@@ -152,7 +129,7 @@ export default function Carte() {
                         <div>
                             Commune:
                             <select value={selectedCommune} onChange={(e) => setSelectedCommune(e.target.value)}>
-                                <option value="">All</option>
+                                <option value="">Select a commune</option>
                                 {communes.map((commune) => (
                                     <option key={commune} value={commune}>{commune}</option>
                                 ))}
