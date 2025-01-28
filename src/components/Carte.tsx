@@ -26,17 +26,11 @@ export default function Carte() {
                 pitch: viewState.pitch
             });
 
-            const marker = new maplibregl.Marker()
-                .setLngLat([5.0000, 45.7667])
-                .addTo(map);
-
             return () => map.remove();
         }
-    }, [API_KEY, viewState]);
+    }, [MAP_SKIN_API_KEY, viewState]);
 
     useEffect(() => {
-        console.log("API_URL", API_URL);
-        console.log("API_KEY", API_KEY);
         const fetchData = async () => {
             const tokenOptions = {
                 method: 'GET',
@@ -53,13 +47,43 @@ export default function Carte() {
                 }
                 const data = await response.json();
                 console.log(data);
+
+                if (mapContainer.current) {
+                    const map = new maplibregl.Map({
+                        container: mapContainer.current,
+                        style: `https://api.maptiler.com/maps/toner-v2/style.json?key=${MAP_SKIN_API_KEY}`,
+                        center: viewState.center,
+                        zoom: viewState.zoom,
+                        pitch: viewState.pitch
+                    });
+
+                    let markerCount = 0;
+                    for (const parcelle of data) {
+                        if (markerCount >= 500) break;
+
+                        const coordinates = JSON.parse(parcelle.coordinates);
+                        const lng = parseFloat(coordinates.lng);
+                        const lat = parseFloat(coordinates.lat);
+
+                        if (!isNaN(lng) && !isNaN(lat)) {
+                            new maplibregl.Marker()
+                                .setLngLat([lng, lat])
+                                .addTo(map);
+                            markerCount++;
+                        } else {
+                            console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
+                        }
+                    }
+
+                    return () => map.remove();
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [API_KEY, MAP_SKIN_API_KEY, viewState]);
 
     return (
         <div className="w-full h-full px-4">
