@@ -144,7 +144,7 @@ export default function Graph() {
                                 <CardTitle>Consommation d'Electricité par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <DoughnutCharter startYear={startYear} endYear={endYear}/>
+                                <DoughnutCharter startYear={startYear} endYear={endYear} labels={consoElectDoughnut.labels} datasets={consoElectDoughnut.dataConso}/>
                             </CardContent>
                         </Card>
                         <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
@@ -152,16 +152,7 @@ export default function Graph() {
                                 <CardTitle>Consommation de Gaz par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <DoughnutCharter startYear={startYear} endYear={endYear} labels={consoElectDoughnut.labels} datasets={[]}/>
-                                <div className="flex flex-col items-center gap-4 text-sm m-10">
-                                    <p className='min-w-12'>
-                                        Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                                    </p>
-                                    <p className='min-w-12'>
-                                        Fin:<ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                                    </p>
-                                </div>
-                                {/* <DoughnutCharter startYear={startYear} endYear={endYear}/> */}
+                                {/*<DoughnutCharter startYear={startYear} endYear={endYear} />*/}
                             </CardContent>
                         </Card>
                     </div>
