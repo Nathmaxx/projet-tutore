@@ -8,6 +8,7 @@ import {RadarCharter} from './../../components/RadarCharter';
 import {DoughnutCharter} from './../../components/DoughnutCharter';
 import {LineCharter} from "./../../components/LineCharter";
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const rElec = 115;
 const gElec = 181;
@@ -43,7 +44,7 @@ export default function Graph() {
     };
 
     return (
-        <div className="w-full h-full px-4 flex flex-col gap-4">
+        <div className="w-full h-full px-4 flex flex-col">
             <Navbar />
             <div className='flex flex-row-reverse gap-4 h-min'>
 
@@ -135,7 +136,7 @@ export default function Graph() {
             <Card className="w-full" style={{height: '-webkit-fill-available'}}>
                 TEST
             </Card>
-
+            <Footer />
             {error && <div className="text-red-500">{error}</div>}
         </div>
     );
