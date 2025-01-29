@@ -31,6 +31,12 @@ export default function Carte() {
     const [overlayData, setOverlayData] = useState<any>(null);
 
     useEffect(() => {
+        for (Element in overlayData) {
+            console.log("annee", Element.annee)
+        }
+    }, [overlayData]);
+
+    useEffect(() => {
         if (mapContainer.current) {
             const mapInstance = new maplibregl.Map({
                 container: mapContainer.current,
@@ -270,17 +276,23 @@ export default function Carte() {
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent>
-                    <div ref={mapContainer} className="w-full h-[800px] rounded-lg"/>
-                    {overlayData && (
-                        <div
-                            className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
-                            <div className="bg-white p-4 rounded-lg shadow-lg">
-                                <h2 className="text-xl font-bold">Parcelle Details</h2>
-                                <pre>{JSON.stringify(overlayData, null, 2)}</pre>
-                                <button onClick={() => setOverlayData(null)}
-                                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Close
-                                </button>
+                <CardContent className="relative">
+                    <div ref={mapContainer} className="relative w-full h-[800px] rounded-lg"/>
+                    {overlayData && overlayData.length > 0 && (
+                        <div className="absolute top-0 left-6 m-4 p-4 bg-white rounded-lg shadow-lg w-1/3">
+                            <div className="flex justify-between items-center">
+                                <h2 className="text-xl font-bold">Détails</h2>
+                                <button onClick={() => setOverlayData(null)} className="text-red-500">Fermer</button>
+                            </div>
+                            <div className="mt-2">
+                                <p><strong>Adresse:</strong> {overlayData[0].adresse}</p>
+                                <p><strong>INSEE:</strong> {overlayData[0].insee}</p>
+                                <p><strong>Commune:</strong> {overlayData[0].commune}</p>
+                                <p><strong>IRIS:</strong> {overlayData[0].iris}</p>
+                                <p><strong>Consommation Électricité:</strong> {overlayData[0].conso_elec} kWh</p>
+                                <p><strong>Consommation
+                                    Gaz:</strong> {overlayData[0].conso_gaz ? `${overlayData[0].conso_gaz} kWh` : 'N/A'}
+                                </p>
                             </div>
                         </div>
                     )}

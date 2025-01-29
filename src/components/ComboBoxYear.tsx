@@ -22,21 +22,11 @@ const years = [
     { label: "2020", value: "2020" },
 ];
 
-interface ComboBoxYearProps {
-    value: string;
-    onChange: (value: string) => void;
-    startYear?: string;
-}
-
-export function ComboBoxYear({ value, onChange, startYear }: ComboBoxYearProps) {
+export function ComboBoxYear({ value, onChange, startYear }) {
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState(value);
 
-    interface HandleSelectProps {
-        currentValue: string;
-    }
-
-    const handleSelect = ({ currentValue }: HandleSelectProps) => {
+    const handleSelect = (currentValue) => {
         const newValue = currentValue === selectedValue ? "" : currentValue;
         setSelectedValue(newValue);
         setOpen(false);
