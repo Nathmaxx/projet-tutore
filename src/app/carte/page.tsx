@@ -30,6 +30,7 @@ export default function Carte() {
     const [selectedYear, setSelectedYear] = useState<number | null>(null);
     const [map, setMap] = useState<maplibregl.Map | null>(null);
     const [open, setOpen] = useState(false);
+    const [overlayData, setOverlayData] = useState<any>(null);
 
     useEffect(() => {
         if (mapContainer.current) {
@@ -158,6 +159,23 @@ export default function Carte() {
                         }
                     });
 
+                    map.on('click', 'parcelles-layer', async (e) => {
+                        let id = e.features[0].properties.id;
+                        console.log('Parcelle ID:', id);
+                        //id = '69381000AL0245';
+                        try {
+                            const response = await fetch(`${API_URL}parcelles/${id}`, tokenOptions);
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            setOverlayData(data);
+                            console.log(data);
+                        } catch (error) {
+                            console.error('Error fetching data:', error);
+                        }
+                    });
+
                     const lngLat = features
                         .map((feature: any) => feature.geometry.coordinates)
                         .filter((coord: number[]) => coord && coord.length === 2 && coord[0] !== null && coord[1] !== null);
@@ -240,6 +258,15 @@ export default function Carte() {
                         </div>
                     </div>
                     <div ref={mapContainer} className="w-full h-[800px] rounded-lg"/>
+                    {overlayData && (
+                        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+                            <div className="bg-white p-4 rounded-lg shadow-lg">
+                                <h2 className="text-xl font-bold">Parcelle Details</h2>
+                                <pre>{JSON.stringify(overlayData, null, 2)}</pre>
+                                <button onClick={() => setOverlayData(null)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Close</button>
+                            </div>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>
