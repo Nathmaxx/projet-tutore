@@ -140,7 +140,9 @@ export default function Carte() {
                                 0, '#00ff00',
                                 1, '#ffff00',
                                 2, '#ff0000'
-                            ]
+                            ],
+                            'circle-stroke-width': 1,
+                            'circle-stroke-color': '#000000'
                         }
                     });
                 } catch (error) {
