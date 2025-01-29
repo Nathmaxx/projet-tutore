@@ -50,8 +50,8 @@ export default function Graph() {
                 <AnimatedNoise opacity={0.07}/>
             </div>
             <Navbar />
-            <div className='flex flex-row-reverse gap-4 h-min'>
 
+            <div className='flex flex-row-reverse gap-4 h-min'>
                 <Card className="w-1/3 lg:w-1/2 h-full">
                     <CardHeader>
                         <CardTitle>Consommation d'énergie par arondissement</CardTitle>
@@ -62,29 +62,50 @@ export default function Graph() {
                                       transparencyElec={transparencyElec}
                                       rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
                         />
-                        <div className="flex flex-row items-center gap-4 text-sm m-10">
-                            <p className='min-w-12'>
-                                Début: <ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                            </p>
-                            <p className='min-w-12'>
-                                Fin: <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                            </p>
-                        </div>
                     </CardContent>
                 </Card>
 
                 <div className='flex flex-col gap-4 w-2/3 lg:w-1/2'>
-
-                    <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                    <Card className="w-full max-w-2/3" style={{height: '-webkit-fill-available'}}>
                         <CardHeader>
-                            <CardTitle>Consommation d'énergie totale</CardTitle>
+                            <CardTitle>Consommation d'énergie par secteur</CardTitle>
                         </CardHeader>
-                        <CardContent className='mt-4'>
-                            <LineCharter startYear={startYear} endYear={endYear}
-                                         rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
-                                         rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
+                        <CardContent>
+                            <BarCharter startYear={startYear} endYear={endYear}
+                                        rElec={rElec} gElec={gElec} bElec={bElec}
+                                        transparencyElec={transparencyElec}
+                                        rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
                             />
-                            <div className="flex flex-row items-center gap-4 text-sm m-10">
+                        </CardContent>
+                    </Card>
+
+                    <div className="flex flex-row gap-4">
+                        <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
+                            <CardHeader>
+                                <CardTitle>Consommation d'Electricité par secteur</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <DoughnutCharter startYear={startYear} endYear={endYear}/>
+                            </CardContent>
+                        </Card>
+                        <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
+                            <CardHeader>
+                                <CardTitle>Consommation de Gaz par secteur</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <DoughnutCharter startYear={startYear} endYear={endYear}/>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
+
+                <div className="flex flex-row gap-4">
+                    <Card className="w-1/3 max-w-1/3" style={{height: '-webkit-fill-available'}}>
+                        <CardHeader>
+                            <CardTitle>Choisir les années voulues</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex flex-col items-center gap-4">
                                 <p className='min-w-12'>
                                     Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
                                 </p>
@@ -94,52 +115,19 @@ export default function Graph() {
                             </div>
                         </CardContent>
                     </Card>
-
-                    <div className="flex flex-row gap-4">
-                        <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
-                            <CardHeader>
-                                <CardTitle>à définir</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <RadarCharter startYear={startYear} endYear={endYear}
-                                              rElec={rElec} gElec={gElec} bElec={bElec}
-                                              transparencyElec={transparencyElec}
-                                              rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
-                                />
-                                <div className="flex flex-col items-center gap-4 text-sm m-10">
-                                    <p className='min-w-12'>
-                                        Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                                    </p>
-                                    <p className='min-w-12'>
-                                        Fin:<ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                        <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
-                            <CardHeader>
-                                <CardTitle>Consommation d'énergie par secteur</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <DoughnutCharter startYear={startYear} endYear={endYear}/>
-                                <div className="flex flex-col items-center gap-4 text-sm m-10">
-                                    <p className='min-w-12'>
-                                        Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                                    </p>
-                                    <p className='min-w-12'>
-                                        Fin:<ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
+                    <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                        <CardHeader>
+                            <CardTitle>Consommation d'énergie totale</CardTitle>
+                        </CardHeader>
+                        <CardContent className='mt-4'>
+                            <LineCharter startYear={startYear} endYear={endYear}
+                                         rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
+                                         rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
+                            />
+                        </CardContent>
+                    </Card>
                 </div>
-
             </div>
-
-            <Card className="w-full" style={{height: '-webkit-fill-available'}}>
-                TEST
-            </Card>
             <Footer />
             {error && <div className="text-red-500">{error}</div>}
         </div>
