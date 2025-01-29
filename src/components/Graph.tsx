@@ -41,42 +41,6 @@ export default function Graph() {
 
     return (
         <div className="w-full h-full px-4 flex flex-col gap-4">
-
-            <div className='flex flex-row gap-4 h-1/5 hidden'>
-                <Card className="w-1/3">
-                    <CardContent>
-                        <BarCharter startYear={startYear} endYear={endYear}
-                                    rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
-                                    rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
-                        />
-                    </CardContent>
-                </Card>
-
-                <Card className="w-full overflow-hidden">
-                    <CardContent>
-                        PLACEHOLDER
-                    </CardContent>
-                </Card>
-
-                <Card className="w-fit">
-                    <div className="flex flex-col items-center gap-4 text-sm m-10">
-                        <div className='flex flex-row items-center gap-2'>
-                            <p className='min-w-12'>
-                                Début:
-                            </p>
-                            <ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                        </div>
-                        <div className='flex flex-row items-center gap-2'>
-                            <p className='min-w-12'>
-                                Fin:
-                            </p>
-                            <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                        </div>
-                    </div>
-                </Card>
-
-            </div>
-
             <div className='flex flex-row-reverse gap-4 h-min'>
 
                 <Card className="w-1/3 lg:w-1/2 h-full">
