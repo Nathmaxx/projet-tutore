@@ -6,8 +6,13 @@ import {
 } from "@/components/ui/accordion";
 import {Card, CardContent, CardHeader} from "./ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 import MyImage from "../img/Carte_Metropole_du_Grand_Lyon.png";
+const imageStyle = {
+    borderRadius: '5%',
+    border: '0 solid transparent',
+}
 
 export default function Home() {
     return (
@@ -17,7 +22,10 @@ export default function Home() {
                     <div className="text-2xl pb-1" >Bienvenue, sur DataWatt Lyon</div>
                 </CardHeader>
                 <CardContent className="w-full flex justify-center items-center">
-                    <Image className="inline-block align-middle" src={MyImage} width={450} height={450} alt="My PNG Image"/>
+                    <Image className="inline-block align-middle" src={MyImage}
+                           width={450} height={450} alt="PNG du Métropole de Lyon"
+                           style={imageStyle}
+                    />
                 </CardContent>
             </Card>
             <Card className="w-2/5 h-fit max-w-1/3">
@@ -31,12 +39,25 @@ export default function Home() {
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value={"item-2"}>
-                            <AccordionTrigger>Quelles analyses sont à disposition?</AccordionTrigger>
+                            <AccordionTrigger>Combien de données sont à disposition?</AccordionTrigger>
                             <AccordionContent>
-                                On propose une analyse sous forme d&apos;une carte interactive puis
-                                une analyse sous forme de plusieurs graphique.
+                                Notre base de données contient 8100 lignes.
                             </AccordionContent>
                         </AccordionItem>
+                        <AccordionItem value={"item-3"}>
+                            <AccordionTrigger>Quelles analyses sont à disposition?</AccordionTrigger>
+                            <AccordionContent>
+                                On propose une analyse sous forme d&apos;une <Link href="">carte interactive</Link> puis
+                                une analyse sous forme de <Link href="">plusieurs graphiques</Link>.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value={"item-4"}>
+                            <AccordionTrigger>Sur quelles années peuvent s'effectuer les analyses?</AccordionTrigger>
+                            <AccordionContent>
+                                Les analyses peuvent se faire à partir de 2018 jusqu'à 2020.
+                            </AccordionContent>
+                        </AccordionItem>
+
                     </Accordion>
                 </CardContent>
             </Card>

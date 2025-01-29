@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Card, CardContent, CardHeader, CardTitle} from "./ui/card";
 import {ComboBoxYear} from "@/components/ComboBoxYear";
+import {BarCharter} from "@/components/BarCharter";
 import {RadarCharter} from './RadarCharter';
 import {DoughnutCharter} from './DoughnutCharter';
 import {LineCharter} from "@/components/LineCharter";

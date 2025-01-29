@@ -1,30 +1,46 @@
 import { Cable, ChartArea, Contact, Map } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
+import Link from 'next/link';
 
-interface NavbarProps {
-    setCurrentPage: (page: string) => void;
-}
 
-export default function Navbar({ setCurrentPage }: NavbarProps) {
+export default function Navbar() {
     return (
-        <Card className='flex text-3xl justify-center w-fit backdrop-blur-lg mx-auto my-4 gap-2'>
-            <Button variant='link' className='font-bold tracking-tighter' onClick={() => setCurrentPage('home')}>
-                <Cable />
-                PROJET TUTORÉ
-            </Button>
-            <Button variant='link' className='font-bold' onClick={() => setCurrentPage('carte')}>
-                <Map />
-                Carte
-            </Button>
-            <Button variant='link' className='font-bold' onClick={() => setCurrentPage('graph')}>
-                <ChartArea />
-                Graph
-            </Button>
-            <Button variant='link' className='font-bold' onClick={() => setCurrentPage('contact')}>
-                <Contact />
-                Contact
-            </Button>
-        </Card>
+        <div className='w-full h-20 flex items-center justify-center'>
+            <Card className='flex text-3xl justify-center w-fit backdrop-blur-lg mx-auto gap-2 '>
+                <Link
+                    href={'/'}
+                >
+                    <Button variant='link' className='font-bold tracking-tighter'>
+                        <Cable />
+                        PROJET TUTORÉ
+                    </Button>
+                </Link>
+                <Link
+                    href={'/carte'}
+                >
+                    <Button variant='link' className='font-bold'>
+                        <Map />
+                        Carte
+                    </Button>
+                </Link>
+                <Link 
+                    href={'/graphes'}
+                >
+                    <Button variant='link' className='font-bold'>
+                        <ChartArea />
+                        Graphes
+                    </Button>
+                </Link>
+                <Link 
+                    href={'/contact'}
+                >
+                    <Button variant='link' className='font-bold'>
+                        <Contact />
+                        Contact
+                    </Button>
+                </Link>
+            </Card>
+        </div>
     );
 }
