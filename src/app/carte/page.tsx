@@ -214,7 +214,7 @@ export default function Carte() {
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center space-x-4 text-sm m-4">
-                        <div>Année: <ComboBoxYear onChange={(year: any) => setSelectedYear(year)} value={selectedYear as any} startYear={2020 as any} /></div>
+                        <div>Année: <ComboBoxYear onChange={(year) => setSelectedYear(year)}/></div>
                         <div>
                             Commune:
                             <Popover open={open} onOpenChange={setOpen}>
