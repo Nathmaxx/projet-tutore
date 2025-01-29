@@ -25,11 +25,11 @@ export default function Navbar() {
                     </Button>
                 </Link>
                 <Link 
-                    href={'/graph'}
+                    href={'/graphes'}
                 >
                     <Button variant='link' className='font-bold'>
                         <ChartArea />
-                        Graph
+                        Graphes
                     </Button>
                 </Link>
                 <Link 

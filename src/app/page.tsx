@@ -9,7 +9,7 @@ import {
 import {Card, CardContent, CardHeader} from "../components/ui/card";
 import Image from "next/image";
 
-import homeImage from "../img/Carte_Métropole_du_Grand_Lyon.png";
+import homeImage from "../img/Carte_Metropole_du_Grand_Lyon.png";
 import Navbar from "@/components/Navbar";
 import { AnimatedNoise } from "@/components/ui/AnimatedNoise";
 import Footer from "@/components/Footer";

@@ -1,9 +1,11 @@
+'use client'
+
 import {useState} from 'react';
-import {Card, CardContent, CardHeader, CardTitle} from "./../../components/ui/card";
+import {Card, CardContent, CardHeader, CardTitle} from "../../components/ui/card";
 import {ComboBoxYear} from "@/components/ComboBoxYear";
 import {BarCharter} from "@/components/BarCharter";
-import {RadarCharter} from './../../components/RadarCharter';
-import {DoughnutCharter} from './../../components/DoughnutCharter';
+import {RadarCharter} from '../../components/RadarCharter';
+import {DoughnutCharter} from '../../components/DoughnutCharter';
 import {LineCharter} from "@/components/LineCharter";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -43,8 +45,8 @@ export default function Graph() {
 
     return (
         <div className="w-full h-full px-4 flex flex-col gap-4">
+            <Navbar />
             <div className='flex flex-row-reverse gap-4 h-min'>
-                <Navbar />
                 <Card className="w-1/3 lg:w-1/2 h-full">
                     <CardHeader>
                         <CardTitle>Consommation d'énergie par arondissement</CardTitle>
