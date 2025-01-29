@@ -106,7 +106,8 @@ export default function Carte() {
                     const features = communeData
                         .slice(0, 9999)
                         .map((parcelle: any) => {
-                            const coordinates = parcelle?.coordinates?.lat !== '' ? parcelle.coordinates : JSON.parse(parcelle.coordinates);
+                            //const coordinates = parcelle?.coordinates?.lat !== '' ? parcelle.coordinates : JSON.parse(parcelle.coordinates);
+                            const coordinates = JSON.parse(parcelle.coordinates);
                             return {
                                 type: 'Feature',
                                 geometry: {
@@ -121,6 +122,8 @@ export default function Carte() {
                                 }
                             };
                         });
+
+                    console.log('Features:', features);
 
                     const geojson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
                         type: "FeatureCollection",
@@ -175,7 +178,7 @@ export default function Carte() {
                                 console.error('Error fetching data:', error);
                             }
                         } else {
-                            console.error('No features found on click event.');
+                            console.log('No features found on click event.');
                         }
                     });
 
@@ -194,7 +197,7 @@ export default function Carte() {
                             });
                             console.log('Center:', randomCoord[0], randomCoord[1]);
                         } else {
-                            console.error('Invalid random coordinate:', randomCoord);
+                            console.log('Invalid random coordinate:', randomCoord);
                         }
                     }
                 } catch (error) {
