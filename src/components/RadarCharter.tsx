@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Chart as ChartJS,
     RadialLinearScale,
@@ -8,7 +8,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Radar } from 'react-chartjs-2';
+import {Radar} from 'react-chartjs-2';
 
 ChartJS.register(
     RadialLinearScale,
@@ -29,9 +29,20 @@ export const options = {
 };
 
 const labels = ['1er Arr.', '2ème Arr.', '3ème Arr.', '4ème Arr.', '5ème Arr.',
-                        "6ème Arr.", "7ème Arr.", "8ième Arr.", "9ième Arr."];
+    "6ème Arr.", "7ème Arr.", "8ième Arr.", "9ième Arr."];
 
-export function RadarCharter({startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz}) {
+export function RadarCharter({
+                                 startYear,
+                                 endYear,
+                                 rElec,
+                                 gElec,
+                                 bElec,
+                                 transparencyElec,
+                                 rGaz,
+                                 gGaz,
+                                 bGaz,
+                                 transparencyGaz
+                             }) {
     const [data, setData] = useState({
         labels,
         datasets: [
@@ -53,6 +64,8 @@ export function RadarCharter({startYear, endYear, rElec, gElec, bElec, transpare
     });
 
     return (
-        <Radar options={options} data={data} />
+        <div className="h-[300px]">
+            <Radar options={options} data={data}/>
+        </div>
     );
 }

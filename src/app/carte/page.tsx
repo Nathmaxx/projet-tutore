@@ -66,6 +66,14 @@ export default function Carte() {
                     console.log(data);
 
                     const uniqueCommunes: string[] = Array.from(new Set(data.map((parcelle: any) => parcelle.commune)));
+
+                    // Sort the communes based on the number contained in each name
+                    uniqueCommunes.sort((a, b) => {
+                        const numA = parseInt(a.match(/\d+/)?.[0] || '0', 10);
+                        const numB = parseInt(b.match(/\d+/)?.[0] || '0', 10);
+                        return numA - numB;
+                    });
+
                     setCommunes(uniqueCommunes);
                 } catch (error) {
                     console.error('Error fetching data:', error);

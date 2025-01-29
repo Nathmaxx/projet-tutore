@@ -144,7 +144,7 @@ export default function Graph() {
 
             <div className='flex gap-4 h-screen'>
 
-                <Card className="lg:w-1/2 h-full items-center flex flex-col justify-center">
+                <Card className="lg:w-1/2 h-fit items-center flex flex-col justify-center">
                     <CardHeader>
                         <CardTitle className='text-xl'>Consommation d'énergie par arondissement</CardTitle>
                     </CardHeader>
