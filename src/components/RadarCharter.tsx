@@ -28,34 +28,50 @@ export const options = {
     },
 };
 
-interface RadarCharter {
-    startYear: string;
-    endYear: string;
+interface DatasetYear {
+    total_conso_elec: number[];
+    total_conso_gaz: number[];
+  }
+  
+  interface RadarCharterProps {
     labels: string[];
-    datasets: number[]
+    datasets: {
+      [key: string]: DatasetYear;
+    };
 }
 
-export function RadarCharter({startYear, endYear, labels, datasets}: RadarCharter) {
+export function RadarCharter({labels, datasets}: RadarCharterProps) {
+
+    const year = 2020
+
+    const [data, setData] = useState<{ labels: string[], datasets: any[] }>({
+        labels: [],
+        datasets: []
+    });
 
     useEffect(() => {
-        console.log('le dataset', datasets)
-    }, [])
-
-    const [data, setData] = useState({
-        labels: labels,
-        datasets: [
-            {
-                label: 'Electricité',
-                data: [6, 9, 3, 5, 4, 7, 8, 9, 10],
-                borderWidth: 1,
-            },
-            {
-                label: 'Gaz',
-                data: [3, 2, 6, 3, 5, 8, 4, 5, 7],
-                borderWidth: 1,
-            },
-        ],
-    });
+        if (datasets[year]) {
+            setData({
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Electricité',
+                        data: datasets[year].total_conso_elec,
+                        borderWidth: 1,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                    },
+                    {
+                        label: 'Gaz',
+                        data: datasets[year].total_conso_gaz,
+                        borderWidth: 1,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                    }
+                ]
+            });
+        }
+    }, [datasets, labels, year]);
 
     return (
         <div className="h-[300px]">
