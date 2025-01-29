@@ -8,6 +8,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    ChartData,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
@@ -52,8 +53,25 @@ export const options = {
     },
 };
 
-export function LineCharter({ startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz }) {
-    const [data, setData] = useState({ labels: [], datasets: [] });
+interface LineCharterProps {
+    startYear: number;
+    endYear: number;
+    rElec: number;
+    gElec: number;
+    bElec: number;
+    transparencyElec: number;
+    rGaz: number;
+    gGaz: number;
+    bGaz: number;
+    transparencyGaz: number;
+}
+
+export function LineCharter({ startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz }: LineCharterProps) {
+
+    const [data, setData] = useState<ChartData<'line'>>({
+        labels: [],
+        datasets: []
+    });
 
     useEffect(() => {
         const fetchData = async () => {

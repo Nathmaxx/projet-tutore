@@ -9,9 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Command, CommandInput, CommandList, CommandItem, CommandEmpty, CommandGroup } from '@/components/ui/command';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { AnimatedNoise } from '@/components/ui/AnimatedNoise';
+
 
 const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
@@ -21,7 +19,7 @@ export default function Carte() {
     const mapContainer = useRef(null);
     const [viewState] = useState<{ center: [number, number]; zoom: number; pitch: number }>({
         center: [4.83397, 45.76748],
-        zoom: 13,
+        zoom: 14,
         pitch: 40
     });
 
@@ -30,6 +28,7 @@ export default function Carte() {
     const [selectedYear, setSelectedYear] = useState<number | null>(null);
     const [map, setMap] = useState<maplibregl.Map | null>(null);
     const [open, setOpen] = useState(false);
+    const [overlayData, setOverlayData] = useState<any>(null);
 
     useEffect(() => {
         if (mapContainer.current) {
@@ -58,7 +57,7 @@ export default function Carte() {
                 };
 
                 try {
-                    const response = await fetch(`${API_URL}parcelles`, tokenOptions);
+                    const response = await fetch(`${API_URL}parcelles/annee/${selectedYear}`, tokenOptions);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -93,7 +92,7 @@ export default function Carte() {
                 };
 
                 try {
-                    const response = await fetch(`${API_URL}parcelles?annee=${selectedYear}`, tokenOptions);
+                    const response = await fetch(`${API_URL}parcelles/annee/${selectedYear}`, tokenOptions);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -158,6 +157,23 @@ export default function Carte() {
                         }
                     });
 
+                    map.on('click', 'parcelles-layer', async (e) => {
+                        let id = e.features[0].properties.id;
+                        console.log('Parcelle ID:', id);
+                        //id = '69381000AL0245';
+                        try {
+                            const response = await fetch(`${API_URL}parcelles/${id}`, tokenOptions);
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            setOverlayData(data);
+                            console.log(data);
+                        } catch (error) {
+                            console.error('Error fetching data:', error);
+                        }
+                    });
+
                     const lngLat = features
                         .map((feature: any) => feature.geometry.coordinates)
                         .filter((coord: number[]) => coord && coord.length === 2 && coord[0] !== null && coord[1] !== null);
@@ -186,11 +202,7 @@ export default function Carte() {
     }, [selectedCommune, selectedYear, map]);
 
     return (
-        <div className="w-full h-full px-4">
-            <div className=' fixed h-screen w-full overflow-hidden -z-10'>
-                <AnimatedNoise opacity={0.07}/>
-            </div>
-            <Navbar />
+        <div className="w-full px-4">  
             <Card className="w-full h-full">
                 <CardHeader>
                     <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
@@ -243,10 +255,18 @@ export default function Carte() {
                             </Popover>
                         </div>
                     </div>
-                    <div ref={mapContainer} className="w-full h-[600px] rounded-lg"/>
+                    <div ref={mapContainer} className="w-full h-[800px] rounded-lg"/>
+                    {overlayData && (
+                        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+                            <div className="bg-white p-4 rounded-lg shadow-lg">
+                                <h2 className="text-xl font-bold">Parcelle Details</h2>
+                                <pre>{JSON.stringify(overlayData, null, 2)}</pre>
+                                <button onClick={() => setOverlayData(null)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Close</button>
+                            </div>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
-            <Footer />
         </div>
     );
 }

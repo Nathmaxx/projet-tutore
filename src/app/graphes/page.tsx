@@ -7,9 +7,6 @@ import {BarCharter} from "./../../components/BarCharter";
 import {RadarCharter} from './../../components/RadarCharter';
 import {DoughnutCharter} from './../../components/DoughnutCharter';
 import {LineCharter} from "./../../components/LineCharter";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { AnimatedNoise } from '@/components/ui/AnimatedNoise';
 
 const rElec = 115;
 const gElec = 181;
@@ -81,11 +78,38 @@ export default function Graph() {
 
     return (
         <div className="w-full h-full px-4 flex flex-col">
-            <div className=' fixed h-screen w-full overflow-hidden -z-10'>
-                <AnimatedNoise opacity={0.07}/>
+
+            <div className="flex gap-4 mb-4 w-full h-96">
+                <div className='w-1/4 h-full flex text-xl'>
+                    <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                        <CardHeader className='text-center pt-12'>
+                            <CardTitle>Choisir les années voulues</CardTitle>
+                        </CardHeader>
+                        <CardContent className='pt-16'>
+                            <div className="flex flex-col items-center gap-4">
+                                <p className='min-w-12'>
+                                    Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
+                                </p>
+                                <p className='min-w-12'>
+                                    Fin:<ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
+                                </p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+                <Card className="w-3/4" style={{height: '-webkit-fill-available'}}>
+                    <CardHeader>
+                        <CardTitle>Consommation d'énergie totale</CardTitle>
+                    </CardHeader>
+                    <CardContent className='mt-4'>
+                        <LineCharter startYear={startYear} endYear={endYear}
+                                     rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
+                                     rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
+                        />
+                    </CardContent>
+                </Card>
             </div>
-            <Navbar />
-            <div className='flex flex-row-reverse gap-4 h-min'>
+            <div className='flex gap-4 h-min'>
 
                 <Card className="w-1/3 lg:w-1/2 h-full">
                     <CardHeader>
@@ -97,63 +121,35 @@ export default function Graph() {
                                       transparencyElec={transparencyElec}
                                       rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
                         />
-                        <div className="flex flex-row items-center gap-4 text-sm m-10">
-                            <p className='min-w-12'>
-                                Début: <ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                            </p>
-                            <p className='min-w-12'>
-                                Fin: <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                            </p>
-                        </div>
                     </CardContent>
                 </Card>
 
                 <div className='flex flex-col gap-4 w-2/3 lg:w-1/2'>
-
-                    <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                    <Card className="w-full max-w-2/3" style={{height: '-webkit-fill-available'}}>
                         <CardHeader>
-                            <CardTitle>Consommation d'énergie totale</CardTitle>
+                            <CardTitle>Consommation d'énergie par secteur</CardTitle>
                         </CardHeader>
-                        <CardContent className='mt-4'>
-                            <LineCharter startYear={startYear} endYear={endYear}
-                                         rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
-                                         rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
+                        <CardContent>
+                            <BarCharter startYear={startYear} endYear={endYear}
+                                        rElec={rElec} gElec={gElec} bElec={bElec}
+                                        transparencyElec={transparencyElec}
+                                        rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
                             />
-                            <div className="flex flex-row items-center gap-4 text-sm m-10">
-                                <p className='min-w-12'>
-                                    Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                                </p>
-                                <p className='min-w-12'>
-                                    Fin:<ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                                </p>
-                            </div>
                         </CardContent>
                     </Card>
 
                     <div className="flex flex-row gap-4">
                         <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
                             <CardHeader>
-                                <CardTitle>à définir</CardTitle>
+                                <CardTitle>Consommation d'Electricité par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <RadarCharter startYear={startYear} endYear={endYear}
-                                              rElec={rElec} gElec={gElec} bElec={bElec}
-                                              transparencyElec={transparencyElec}
-                                              rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
-                                />
-                                <div className="flex flex-col items-center gap-4 text-sm m-10">
-                                    <p className='min-w-12'>
-                                        Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                                    </p>
-                                    <p className='min-w-12'>
-                                        Fin:<ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                                    </p>
-                                </div>
+                                <DoughnutCharter startYear={startYear} endYear={endYear}/>
                             </CardContent>
                         </Card>
                         <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
                             <CardHeader>
-                                <CardTitle>Consommation d'énergie par secteur</CardTitle>
+                                <CardTitle>Consommation de Gaz par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <DoughnutCharter startYear={startYear} endYear={endYear} labels={consoElectDoughnut.labels} datasets={[]}/>
@@ -165,17 +161,16 @@ export default function Graph() {
                                         Fin:<ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
                                     </p>
                                 </div>
+                                {/* <DoughnutCharter startYear={startYear} endYear={endYear}/> */}
                             </CardContent>
                         </Card>
                     </div>
                 </div>
-
             </div>
 
             <Card className="w-full" style={{height: '-webkit-fill-available'}}>
                 TEST
             </Card>
-            <Footer />
             {error && <div className="text-red-500">{error}</div>}
         </div>
     );

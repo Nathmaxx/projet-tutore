@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import { AnimatedNoise } from "@/components/ui/AnimatedNoise";
+import Footer from "@/components/Footer";
 
 
 export const metadata: Metadata = {
@@ -15,7 +18,12 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="bg-gray-200">
-        {children}
+        <div className=' fixed h-screen w-full overflow-hidden -z-10'>
+          <AnimatedNoise opacity={0.07}/>
+        </div>
+        <Navbar />
+          {children}
+        <Footer />
       </body>
     </html>
   );
