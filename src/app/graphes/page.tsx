@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {Card, CardContent, CardHeader, CardTitle} from "./../../components/ui/card";
 import {ComboBoxYear} from "./../../components/ComboBoxYear";
 import {BarCharter} from "./../../components/BarCharter";
@@ -25,6 +25,12 @@ export default function Graph() {
     const [startYear, setStartYear] = useState("2018");
     const [endYear, setEndYear] = useState("2019");
     const [error, setError] = useState("");
+    const [consoElectDoughnut, setConsoElectDoughnut] = React.useState<
+        { dataConso: number[], labels: string[] }
+    >({
+        dataConso: [],
+        labels: []
+    })
 
     const handleStartYearChange = (year: string) => {
         if (parseInt(year) > parseInt(endYear)) {
@@ -43,6 +49,35 @@ export default function Graph() {
             setEndYear(year);
         }
     };
+
+    const fetchStatElecForDoughnut = async () => {
+        try {
+            await fetch(`/api/stat-elec-doughnut`,
+                {
+                    method: "GET",
+                }
+            )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                if(data.error) {
+                    console.log("error", data.error);
+                    return;
+                }
+                
+                console.log("data", data);
+                setConsoElectDoughnut(data);
+            });
+        } catch (error) {
+            console.error("Error fetching subcategories: ", error);
+            return [];
+        }
+    };
+
+    React.useEffect(() => {
+        fetchStatElecForDoughnut();
+    }, []);
 
     return (
         <div className="w-full h-full px-4 flex flex-col">
@@ -121,7 +156,7 @@ export default function Graph() {
                                 <CardTitle>Consommation d'énergie par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <DoughnutCharter startYear={startYear} endYear={endYear}/>
+                                <DoughnutCharter startYear={startYear} endYear={endYear} labels={consoElectDoughnut.labels} datasets={[]}/>
                                 <div className="flex flex-col items-center gap-4 text-sm m-10">
                                     <p className='min-w-12'>
                                         Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>

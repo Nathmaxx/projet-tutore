@@ -21,11 +21,11 @@ export const options = {
     },
 };
 
-const labels = ['Residentiel', 'Tertiaire ', 'Industriel'];
+export function DoughnutCharter({startYear, endYear, labels, datasets}) {
 
-export function DoughnutCharter({startYear, endYear }) {
-    const [data, setData] = useState({
-        labels,
+    const data = {
+        labels: labels,
+        // replace datasets with the one from the props
         datasets: [
             {
                 label: 'Quantité',
@@ -48,8 +48,8 @@ export function DoughnutCharter({startYear, endYear }) {
                 ],
                 borderWidth: 1,
             },
-    ],
-});
+        ],
+    };
 
     return (
         <Doughnut options={options} data={data} />
