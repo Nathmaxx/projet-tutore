@@ -7,9 +7,6 @@ import {BarCharter} from "./../../components/BarCharter";
 import {RadarCharter} from './../../components/RadarCharter';
 import {DoughnutCharter} from './../../components/DoughnutCharter';
 import {LineCharter} from "./../../components/LineCharter";
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { AnimatedNoise } from '@/components/ui/AnimatedNoise';
 
 const rElec = 115;
 const gElec = 181;
@@ -132,7 +129,10 @@ export default function Graph() {
                     </Card>
                 </div>
             </div>
-            <Footer />
+
+            <Card className="w-full" style={{height: '-webkit-fill-available'}}>
+                TEST
+            </Card>
             {error && <div className="text-red-500">{error}</div>}
         </div>
     );

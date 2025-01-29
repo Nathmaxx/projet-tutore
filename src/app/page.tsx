@@ -10,9 +10,6 @@ import {Card, CardContent, CardHeader} from "../components/ui/card";
 import Image from "next/image";
 
 import homeImage from "../img/Carte_Metropole_du_Grand_Lyon.png";
-import Navbar from "@/components/Navbar";
-import { AnimatedNoise } from "@/components/ui/AnimatedNoise";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 
 export default function Home() {
@@ -26,7 +23,6 @@ export default function Home() {
                     <CardContent className="w-full flex justify-center items-center">
                         <Image className="inline-block align-middle rounded-2xl" src={homeImage}
                                width={450} height={450} alt="PNG du Métropole de Lyon"
-
                         />
                     </CardContent>
                 </Card>

@@ -9,9 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Command, CommandInput, CommandList, CommandItem, CommandEmpty, CommandGroup } from '@/components/ui/command';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { AnimatedNoise } from '@/components/ui/AnimatedNoise';
+
 
 const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
@@ -204,7 +202,7 @@ export default function Carte() {
     }, [selectedCommune, selectedYear, map]);
 
     return (
-        <div className="w-full h-full px-4">
+        <div className="w-full px-4">  
             <Card className="w-full h-full">
                 <CardHeader>
                     <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
