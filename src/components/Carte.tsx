@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Card, CardContent, CardHeader } from './ui/card';
-import { ComboBoxYear } from './ComboBoxYear';
+import {Card, CardContent, CardHeader} from './ui/card';
+import {ComboBoxYear} from './ComboBoxYear';
 
 const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
@@ -85,7 +85,6 @@ export default function Carte() {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const data = await response.json();
-
                     console.log(data);
 
                     const communeData = data.filter((parcelle: any) => parcelle.commune === selectedCommune);
@@ -145,6 +144,28 @@ export default function Carte() {
                             'circle-stroke-color': '#000000'
                         }
                     });
+
+                    // Calculate the center of the selected commune
+                    const lngLat = features
+                        .map((feature: any) => feature.geometry.coordinates)
+                        .filter((coord: number[]) => coord && coord.length === 2 && coord[0] !== null && coord[1] !== null);
+
+                    if (lngLat.length > 0) {
+                        // Select a random valid coordinate
+                        const randomIndex = Math.floor(Math.random() * lngLat.length);
+                        const randomCoord = lngLat[randomIndex];
+
+                        if (randomCoord && randomCoord.length === 2 && !isNaN(randomCoord[0]) && !isNaN(randomCoord[1])) {
+                            // Fly to the new center
+                            map.flyTo({
+                                center: [randomCoord[0], randomCoord[1]],
+                                essential: true // this animation is considered essential with respect to prefers-reduced-motion
+                            });
+                            console.log('Center:', randomCoord[0], randomCoord[1]);
+                        } else {
+                            console.error('Invalid random coordinate:', randomCoord);
+                        }
+                    }
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
@@ -162,8 +183,10 @@ export default function Carte() {
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center space-x-4 text-sm m-4">
-                        <div>Début: <ComboBoxYear onChange={() => { }} /></div>
-                        <div>Fin: <ComboBoxYear onChange={() => { }} /></div>
+                        <div>Début: <ComboBoxYear onChange={() => {
+                        }}/></div>
+                        <div>Fin: <ComboBoxYear onChange={() => {
+                        }}/></div>
                         <div>
                             Commune:
                             <select value={selectedCommune} onChange={(e) => setSelectedCommune(e.target.value)}>
@@ -174,7 +197,7 @@ export default function Carte() {
                             </select>
                         </div>
                     </div>
-                    <div ref={mapContainer} className="w-full h-[600px] rounded-lg" />
+                    <div ref={mapContainer} className="w-full h-[600px] rounded-lg"/>
                 </CardContent>
             </Card>
         </div>
