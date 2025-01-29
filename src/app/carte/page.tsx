@@ -212,10 +212,8 @@ export default function Carte() {
     return (
         <div className="w-full px-4">
             <Card className="w-full h-full">
-                <CardHeader>
+                <CardHeader className="flex flex-row justify-between">
                     <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
-                </CardHeader>
-                <CardContent>
                     <div className="flex items-center space-x-4 text-sm m-4">
                         <div>Année: <ComboBoxYear onChange={(year) => setSelectedYear(year)}/></div>
                         <div>
@@ -263,6 +261,8 @@ export default function Carte() {
                             </Popover>
                         </div>
                     </div>
+                </CardHeader>
+                <CardContent>
                     <div ref={mapContainer} className="w-full h-[800px] rounded-lg"/>
                     {overlayData && (
                         <div
