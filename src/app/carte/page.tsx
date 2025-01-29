@@ -1,14 +1,14 @@
 "use client";
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ComboBoxYear } from '@/components/ComboBoxYear';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { Command, CommandInput, CommandList, CommandItem, CommandEmpty, CommandGroup } from '@/components/ui/command';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import {Card, CardContent, CardHeader} from '@/components/ui/card';
+import {ComboBoxYear} from '@/components/ComboBoxYear';
+import {Popover, PopoverTrigger, PopoverContent} from '@/components/ui/popover';
+import {Button} from '@/components/ui/button';
+import {Command, CommandInput, CommandList, CommandItem, CommandEmpty, CommandGroup} from '@/components/ui/command';
+import {Check, ChevronsUpDown} from 'lucide-react';
+import {cn} from '@/lib/utils';
 
 
 const API_URL = process.env.API_URL;
@@ -65,7 +65,7 @@ export default function Carte() {
                     const data = await response.json();
                     console.log(data);
 
-                    const uniqueCommunes = Array.from(new Set(data.map((parcelle: any) => parcelle.commune)));
+                    const uniqueCommunes: string[] = Array.from(new Set(data.map((parcelle: any) => parcelle.commune)));
                     setCommunes(uniqueCommunes);
                 } catch (error) {
                     console.error('Error fetching data:', error);
@@ -122,8 +122,8 @@ export default function Carte() {
                             };
                         });
 
-                    const geojson = {
-                        type: 'FeatureCollection',
+                    const geojson: GeoJSON.FeatureCollection<GeoJSON.Geometry> = {
+                        type: "FeatureCollection",
                         features: features
                     };
 
@@ -159,19 +159,23 @@ export default function Carte() {
                     });
 
                     map.on('click', 'parcelles-layer', async (e) => {
-                        const id = e.features[0].properties.id;
-                        console.log('Parcelle ID:', id);
-                        //id = '69381000AL0245';
-                        try {
-                            const response = await fetch(`${API_URL}parcelles/${id}`, tokenOptions);
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
+                        if (e.features && e.features.length > 0) {
+                            const id = e.features[0].properties.id;
+                            console.log('Parcelle ID:', id);
+                            //id = '69381000AL0245';
+                            try {
+                                const response = await fetch(`${API_URL}parcelles/${id}`, tokenOptions);
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                const data = await response.json();
+                                setOverlayData(data);
+                                console.log(data);
+                            } catch (error) {
+                                console.error('Error fetching data:', error);
                             }
-                            const data = await response.json();
-                            setOverlayData(data);
-                            console.log(data);
-                        } catch (error) {
-                            console.error('Error fetching data:', error);
+                        } else {
+                            console.error('No features found on click event.');
                         }
                     });
 
@@ -203,14 +207,14 @@ export default function Carte() {
     }, [selectedCommune, selectedYear, map]);
 
     return (
-        <div className="w-full px-4">  
+        <div className="w-full px-4">
             <Card className="w-full h-full">
                 <CardHeader>
                     <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center space-x-4 text-sm m-4">
-                        <div>Année: <ComboBoxYear onChange={(year) => setSelectedYear(year)}/></div>
+                        <div>Année: <ComboBoxYear onChange={(year: any) => setSelectedYear(year)} value={selectedYear as any} startYear={2020 as any} /></div>
                         <div>
                             Commune:
                             <Popover open={open} onOpenChange={setOpen}>
@@ -222,12 +226,12 @@ export default function Carte() {
                                         className="w-[200px] justify-between"
                                     >
                                         {selectedCommune || "Select a commune"}
-                                        <ChevronsUpDown className="opacity-50" />
+                                        <ChevronsUpDown className="opacity-50"/>
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-[200px] p-0">
                                     <Command>
-                                        <CommandInput placeholder="Search commune..." className="h-9" />
+                                        <CommandInput placeholder="Search commune..." className="h-9"/>
                                         <CommandList>
                                             <CommandEmpty>No commune found.</CommandEmpty>
                                             <CommandGroup>
@@ -258,11 +262,14 @@ export default function Carte() {
                     </div>
                     <div ref={mapContainer} className="w-full h-[800px] rounded-lg"/>
                     {overlayData && (
-                        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+                        <div
+                            className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
                             <div className="bg-white p-4 rounded-lg shadow-lg">
                                 <h2 className="text-xl font-bold">Parcelle Details</h2>
                                 <pre>{JSON.stringify(overlayData, null, 2)}</pre>
-                                <button onClick={() => setOverlayData(null)} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Close</button>
+                                <button onClick={() => setOverlayData(null)}
+                                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Close
+                                </button>
                             </div>
                         </div>
                     )}
