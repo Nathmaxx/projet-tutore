@@ -18,10 +18,6 @@ import Link from "next/link";
 export default function Home() {
     return (
         <>
-            <div className=' fixed h-screen w-full overflow-hidden -z-10'>
-                <AnimatedNoise opacity={0.07}/>
-            </div>
-            <Navbar />
             <div className="flex flex-row gap-4 justify-center items-center h-full">
                 <Card className="w-2/5 h-fit max-w-1/3">
                     <CardHeader className="w-full flex justify-center items-center">
@@ -66,8 +62,7 @@ export default function Home() {
                         </Accordion>
                     </CardContent>
                 </Card>
-            </div>
-            <Footer /> 
+            </div> 
         </>
     );
 }

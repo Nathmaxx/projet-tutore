@@ -187,10 +187,6 @@ export default function Carte() {
 
     return (
         <div className="w-full h-full px-4">
-            <div className=' fixed h-screen w-full overflow-hidden -z-10'>
-                <AnimatedNoise opacity={0.07}/>
-            </div>
-            <Navbar />
             <Card className="w-full h-full">
                 <CardHeader>
                     <h1 className="text-2xl font-bold">Carte interactive de la Métropole de Lyon</h1>
@@ -246,7 +242,6 @@ export default function Carte() {
                     <div ref={mapContainer} className="w-full h-[800px] rounded-lg"/>
                 </CardContent>
             </Card>
-            <Footer />
         </div>
     );
 }

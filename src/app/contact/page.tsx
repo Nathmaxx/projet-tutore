@@ -6,10 +6,6 @@ import { AnimatedNoise } from "@/components/ui/AnimatedNoise";
 export default function Contact() {
     return (
         <div className="">
-            <div className=' fixed h-screen w-full overflow-hidden -z-10'>
-                <AnimatedNoise opacity={0.07}/>
-            </div>
-            <Navbar />
             <Card className="w-4/5 h-fit mx-auto p-3 pl-8">
                 <h1 className="text-2xl font-bold">Contact page</h1>
             </Card>
