@@ -21,7 +21,7 @@ export const options = {
     },
 };
 
-const labels = ['Industrie', 'Habitations', 'Publique'];
+const labels = ['Residentiel', 'Tertiaire ', 'Industriel'];
 
 export function DoughnutCharter({startYear, endYear }) {
     const [data, setData] = useState({
