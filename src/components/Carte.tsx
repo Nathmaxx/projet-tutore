@@ -85,6 +85,7 @@ export default function Carte() {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const data = await response.json();
+
                     console.log(data);
 
                     const communeData = data.filter((parcelle: any) => parcelle.commune === selectedCommune);
