@@ -46,12 +46,8 @@ export default function Graph() {
 
     return (
         <div className="w-full h-full px-4 flex flex-col">
-            <div className=' fixed h-screen w-full overflow-hidden -z-10'>
-                <AnimatedNoise opacity={0.07}/>
-            </div>
-            <Navbar />
-
             <div className='flex flex-row-reverse gap-4 h-min'>
+
                 <Card className="w-1/3 lg:w-1/2 h-full">
                     <CardHeader>
                         <CardTitle>Consommation d'énergie par arondissement</CardTitle>
@@ -62,6 +58,14 @@ export default function Graph() {
                                       transparencyElec={transparencyElec}
                                       rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
                         />
+                        <div className="flex flex-row items-center gap-4 text-sm m-10">
+                            <p className='min-w-12'>
+                                Début: <ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
+                            </p>
+                            <p className='min-w-12'>
+                                Fin: <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
+                            </p>
+                        </div>
                     </CardContent>
                 </Card>
 
