@@ -19,7 +19,6 @@ export default function Carte() {
     const [communes, setCommunes] = useState<string[]>([]);
     const [selectedCommune, setSelectedCommune] = useState<string>('');
     const [map, setMap] = useState<maplibregl.Map | null>(null);
-    const [markers, setMarkers] = useState<maplibregl.Marker[]>([]);
 
     useEffect(() => {
         if (mapContainer.current) {
@@ -66,7 +65,10 @@ export default function Carte() {
 
     useEffect(() => {
         if (map && selectedCommune) {
-            markers.forEach(marker => marker.remove());
+            if (map.getSource('parcelles')) {
+                map.removeLayer('parcelles-layer');
+                map.removeSource('parcelles');
+            }
 
             const fetchData = async () => {
                 const tokenOptions = {
@@ -85,28 +87,61 @@ export default function Carte() {
                     const data = await response.json();
                     console.log(data);
 
-                    let markerCount = 0;
-                    const newMarkers: maplibregl.Marker[] = [];
-                    data.forEach((parcelle: any) => {
-                        if (markerCount >= 500) return;
+                    const communeData = data.filter((parcelle: any) => parcelle.commune === selectedCommune);
+                    const avgConsoElec = communeData.reduce((sum: number, parcelle: any) => sum + (parcelle.conso_elec || 0), 0) / communeData.length;
 
-                        if (parcelle.commune === selectedCommune) {
+                    const features = communeData
+                        .slice(0, 9999)
+                        .map((parcelle: any) => {
                             const coordinates = JSON.parse(parcelle.coordinates);
-                            const lng = parseFloat(coordinates.lng);
-                            const lat = parseFloat(coordinates.lat);
+                            return {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: [parseFloat(coordinates.lng), parseFloat(coordinates.lat)]
+                                },
+                                properties: {
+                                    id: parcelle.id_parcelle,
+                                    surface: (parcelle.majic_surf_habitable_parcelle || 30) / 10,
+                                    conso_elec: parcelle.conso_elec || 0,
+                                    avgConsoElec: avgConsoElec
+                                }
+                            };
+                        });
 
-                            if (!isNaN(lng) && !isNaN(lat)) {
-                                const marker = new maplibregl.Marker()
-                                    .setLngLat([lng, lat])
-                                    .addTo(map);
-                                newMarkers.push(marker);
-                                markerCount++;
-                            } else {
-                                //console.error(`Invalid coordinates for parcelle ${parcelle.id_parcelle}:`, coordinates);
-                            }
+                    const geojson = {
+                        type: 'FeatureCollection',
+                        features: features
+                    };
+
+                    map.addSource('parcelles', {
+                        type: 'geojson',
+                        data: geojson
+                    });
+
+                    map.addLayer({
+                        id: 'parcelles-layer',
+                        type: 'circle',
+                        source: 'parcelles',
+                        paint: {
+                            'circle-radius': [
+                                'interpolate',
+                                ['linear'],
+                                ['get', 'surface'],
+                                0, 3,
+                                100, 10,
+                                1000, 20
+                            ],
+                            'circle-color': [
+                                'interpolate',
+                                ['linear'],
+                                ['/', ['get', 'conso_elec'], ['get', 'avgConsoElec']],
+                                0, '#00ff00',
+                                1, '#ffff00',
+                                2, '#ff0000'
+                            ]
                         }
                     });
-                    setMarkers(newMarkers);
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
