@@ -11,6 +11,7 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { AnimatedNoise } from '@/components/ui/AnimatedNoise';
 
 const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
@@ -186,6 +187,9 @@ export default function Carte() {
 
     return (
         <div className="w-full h-full px-4">
+            <div className=' fixed h-screen w-full overflow-hidden -z-10'>
+                <AnimatedNoise opacity={0.07}/>
+            </div>
             <Navbar />
             <Card className="w-full h-full">
                 <CardHeader>
