@@ -32,7 +32,11 @@ export function ComboBoxYear({ value, onChange, startYear }: ComboBoxYearProps) 
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState(value);
 
-    const handleSelect = (currentValue) => {
+    interface HandleSelectProps {
+        currentValue: string;
+    }
+
+    const handleSelect = ({ currentValue }: HandleSelectProps) => {
         const newValue = currentValue === selectedValue ? "" : currentValue;
         setSelectedValue(newValue);
         setOpen(false);

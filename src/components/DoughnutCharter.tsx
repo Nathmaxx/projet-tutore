@@ -22,37 +22,39 @@ export const options = {
     },
 };
 
+export interface DataItem {
+    total: number;
+    annee: number;
+}
+
+// Interface pour le dataset complet
 interface DoughnutCharterProps {
-    startYear: string;
-    endYear: string;
     labels: string[];
-    datasets: number[]
+    datasets: DataItem[][];  // Tableau de tableaux d'items
+    year: string;
 }
 
 
 
 
-export function DoughnutCharter({startYear, endYear, labels, datasets}: DoughnutCharterProps) {
+export function DoughnutCharter({year, labels, datasets}: DoughnutCharterProps) {
 
-        const calculateSumByYears = (startYear: string, endYear: string, dataset: any[]) => {
-            // Initialiser tableau de résultats
-            const sums = [0, 0, 0];
-            
-            // Pour chaque catégorie (résidentiel, industriel, tertiaire)
-            dataset.forEach((category, index) => {
-                // Filtrer et sommer les données entre startYear et endYear
-                const sum = category
-                    .filter((item: any) => 
-                        item.annee >= parseInt(startYear) && 
-                        item.annee <= parseInt(endYear))
-                    .reduce((acc: number, curr: any) => acc + curr.total, 0);
-                    
-                sums[index] = Number(sum.toFixed(0));
+        const yearInt = parseInt(year)
+
+        const calcValues = (year: number) => {
+
+            let returnList = [0, 0, 0]
+
+            datasets.forEach((sousTableau, index) => {
+                sousTableau.forEach(item => {
+                    if(item.annee === year){
+                        returnList[index] = item.total
+                    }
+                });
             });
-            
-            return sums;
-        }; 
-       
+
+            return returnList
+        } 
 
     const data = {
         labels: labels,
@@ -60,7 +62,7 @@ export function DoughnutCharter({startYear, endYear, labels, datasets}: Doughnut
         datasets: [
             {
                 label: 'Quantité',
-                data: calculateSumByYears(startYear, endYear, datasets),
+                data: calcValues(yearInt),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
