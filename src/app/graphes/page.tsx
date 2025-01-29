@@ -9,6 +9,7 @@ import {DoughnutCharter} from './../../components/DoughnutCharter';
 import {LineCharter} from "./../../components/LineCharter";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { AnimatedNoise } from '@/components/ui/AnimatedNoise';
 
 const rElec = 115;
 const gElec = 181;
@@ -45,6 +46,9 @@ export default function Graph() {
 
     return (
         <div className="w-full h-full px-4 flex flex-col">
+            <div className=' fixed h-screen w-full overflow-hidden -z-10'>
+                <AnimatedNoise opacity={0.07}/>
+            </div>
             <Navbar />
             <div className='flex flex-row-reverse gap-4 h-min'>
 
