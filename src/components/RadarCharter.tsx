@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useEffect, useState} from 'react';
 import {
     Chart as ChartJS,
@@ -50,6 +52,10 @@ export function RadarCharter({labels, datasets}: RadarCharterProps) {
     });
 
     useEffect(() => {
+        console.log(datasets)
+    }, [datasets])
+
+    useEffect(() => {
         if (datasets[year]) {
             setData({
                 labels: labels,
@@ -70,11 +76,12 @@ export function RadarCharter({labels, datasets}: RadarCharterProps) {
                     }
                 ]
             });
+
         }
     }, [datasets, labels, year]);
 
     return (
-        <div className="h-[300px]">
+        <div className="h-full w-full">
             <Radar options={options} data={data}/>
         </div>
     );

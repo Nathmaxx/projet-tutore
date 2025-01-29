@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, CardContent, CardHeader, CardTitle} from "./../../components/ui/card";
 import {ComboBoxYear} from "./../../components/ComboBoxYear";
 import {BarCharter} from "./../../components/BarCharter";
@@ -138,6 +138,11 @@ export default function Graph() {
                         labels: data.labels
                     }
                 )
+                console.log({
+                    "2018": { total_conso_elec: [data["2018"][0]], total_conso_gaz: [data["2018"][1]] },
+                    "2019": { total_conso_elec: [data["2019"][0]], total_conso_gaz: [data["2019"][1]] },
+                    "2020": { total_conso_elec: [data["2020"][0]], total_conso_gaz: [data["2020"][1]] }
+                })
             });
         } catch (error) {
             console.error("Error fetching subcategories: ", error);
@@ -168,7 +173,6 @@ export default function Graph() {
     };
 
 
-
     React.useEffect(() => {
         fetchStatElecForDoughnut();
         fetchStatGazForDoughnut();
@@ -176,11 +180,30 @@ export default function Graph() {
         fecthConsoYear();
     }, []);
 
-
     return (
         <div className="w-full px-4 flex flex-col">
+            <div className="flex flex-col w-2/3">
+                <h1 className='text-3xl font-semibold mb-4'>Graphiques sur période</h1>
+                <div className=' mb-4'>
+                    <Card className="flex py-5 pl-5" style={{height: '-webkit-fill-available'}}>
+                        <div className='text-xl w-1/2 flex items-center justify-center'>
+                            <CardTitle>Choisir les années souhaitées</CardTitle>
+                        </div>
+                        <div className='flex items-center justify-center'>
+                            <div className="flex gap-4">
+                                <p className='min-w-12'>
+                                    Début: <ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
+                                </p>
+                                <p className='min-w-12'>
+                                    Fin: <ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
+                                </p>
+                            </div>
+                        </div>
+                    </Card>
+                </div>  
+            </div>
 
-            <div className='h-96 w-full flex'>
+            <div className='h-96 w-full flex gap-4'>
                 <div className='h-96 w-1/2'>
                     <Card className="w-full h-full flex flex-col" style={{height: '-webkit-fill-available'}}>
                         <CardHeader>
@@ -194,7 +217,7 @@ export default function Graph() {
                         </CardContent>
                     </Card>
                 </div>
-                <div className='h-96 bg-green-300 w-1/2'>
+                <div className='h-96 w-1/2'>
                     <Card className="w-full h-full flex flex-col items-center" style={{height: '-webkit-fill-available'}}>
                         <CardHeader>
                             <CardTitle className='text-xl text-center'>Consommation d'énergie par secteur</CardTitle>
@@ -210,74 +233,63 @@ export default function Graph() {
                 </div>
             </div>
 
-            <div className="flex gap-4 mb-4 w-full h-96">
-                <div className='w-1/4 h-full flex text-xl'>
-                    <Card className="w-full" style={{height: '-webkit-fill-available'}}>
-                        <CardHeader className='text-center pt-12 w-full'>
-                            <CardTitle>Choisir les années voulues</CardTitle>
-                        </CardHeader>
-                        <CardContent className='pt-16'>
-                            <div className="flex flex-col items-center gap-4">
-                                <p className='min-w-12'>
-                                    Début:<ComboBoxYear value={startYear} onChange={handleStartYearChange}/>
-                                </p>
-                                <p className='min-w-12'>
-                                    Fin:<ComboBoxYear value={endYear} onChange={handleEndYearChange} startYear={startYear}/>
-                                </p>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
-                
-            </div>
-
-           
-
-                <div className='flex flex-col gap-4 w-2/3 lg:w-1/2'>
-                    
-
-                    <div className="flex gap-4 h-screen w-full bg-blue-500">
-                        <Card className=" items-center flex flex-col justify-center">
-                            <CardHeader>
+            <div className='mt-8'>
+                <h1 className='font-semibold text-3xl'>Graphiques par année</h1>
+                <div className='w-full h-screen flex gap-4 mt-4'>
+                    <div className='w-2/3 h-full flex flex-col'>
+                        <Card className="w-full h-full flex flex-col">
+                            <CardHeader className="shrink-0 bg-blue-500 flex items-center justify-center">
                                 <CardTitle className='text-xl'>Consommation d'énergie par arondissement</CardTitle>
                             </CardHeader>
-                            <CardContent >
-                                <RadarCharter 
-                                    labels={consoArrondissement.labels}
-                                    datasets={consoArrondissement.years}   
-                                />
+                            <CardContent className="flex-1 flex items-center justify-center">
+                                <div className="w-4/5 h-4/5">
+                                    <RadarCharter 
+                                        labels={consoArrondissement.labels}
+                                        datasets={consoArrondissement.years}   
+                                    />
+                                </div>
+
                             </CardContent>
-                        </Card>
-                        <div className=''>
-                            <Card className=" flex flex-col items-center justify-center" style={{height: '-webkit-fill-available'}}>
-                                <CardHeader>
-                                    <CardTitle>Consommation d'Electricité par secteur</CardTitle>
-                                </CardHeader>
-                                <CardContent>
+                    </Card>
+                </div>
+                <div className='w-1/3 h-full grid grid-rows-2 gap-4'>
+                    <div className='w-full h-full'>
+                        <Card className="h-full flex flex-col">
+                            <CardHeader className='h-1/4 flex items-center justify-center'>
+                                <CardTitle className="text-center text-xl">Consommation d'Électricité par secteur</CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex-1 flex justify-center">
+                                <div className="flex justify-center">
                                     <DoughnutCharter 
                                         startYear={startYear} 
-                                        endYear={endYear} 
+                                        endYear={endYear}
                                         labels={consoElectDoughnut.labels} 
                                         datasets={consoElectDoughnut.dataConso}
                                     />
-                                </CardContent>
-                            </Card>
-                            <Card className="flex flex-col items-center justify-center" style={{height: '-webkit-fill-available'}}>
-                                <CardHeader>
-                                    <CardTitle>Consommation de Gaz par secteur</CardTitle>
-                                </CardHeader>
-                                <CardContent>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                    <div className='w-full h-full'>
+                        <Card className="h-full flex flex-col">
+                            <CardHeader className='h-1/4 flex items-center justify-center'>
+                                <CardTitle className="text-center text-xl">Consommation de Gaz par secteur</CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex-1 flex justify-center">
+                                <div className="flex justify-center">
                                     <DoughnutCharter 
                                         startYear={startYear} 
-                                        endYear={endYear} 
+                                        endYear={endYear}
                                         labels={consoGazDoughnut.labels} 
                                         datasets={consoGazDoughnut.dataConso}
                                     />
-                                </CardContent>
-                            </Card>
-                        </div>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
+            </div>
+        </div>
 
 
             {error && <div className="text-red-500">{error}</div>}
