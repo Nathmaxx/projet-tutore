@@ -34,51 +34,6 @@ interface DoughnutCharterProps {
 
 export function DoughnutCharter({startYear, endYear, labels, datasets}: DoughnutCharterProps) {
 
-        const dataset = [
-            [
-                {
-                    "total": 196317.22000000003,
-                    "annee": 2019
-                },
-                {
-                    "total": 199418.71,
-                    "annee": 2020
-                },
-                {
-                    "total": 198073.5099999998,
-                    "annee": 2018
-                }
-            ],
-            [
-                {
-                    "total": 36930.33000000001,
-                    "annee": 2019
-                },
-                {
-                    "total": 30485.52,
-                    "annee": 2020
-                },
-                {
-                    "total": 34757.81000000001,
-                    "annee": 2018
-                }
-            ],
-            [
-                {
-                    "total": 465178.31999999954,
-                    "annee": 2019
-                },
-                {
-                    "total": 435415.42000000016,
-                    "annee": 2020
-                },
-                {
-                    "total": 451512.3099999997,
-                    "annee": 2018
-                }
-            ]
-        ]
-
         const calculateSumByYears = (startYear: string, endYear: string, dataset: any[]) => {
             // Initialiser tableau de résultats
             const sums = [0, 0, 0];
@@ -96,11 +51,7 @@ export function DoughnutCharter({startYear, endYear, labels, datasets}: Doughnut
             });
             
             return sums;
-        };
-
-        console.log('dataset', datasets)
-
-        console.log(calculateSumByYears(startYear, endYear, datasets))  
+        }; 
        
 
     const data = {

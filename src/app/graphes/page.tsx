@@ -70,8 +70,6 @@ export default function Graph() {
                     console.log("error", data.error);
                     return;
                 }
-                
-                console.log("data", data);
                 setConsoElectDoughnut(data);
             });
         } catch (error) {
@@ -97,7 +95,7 @@ export default function Graph() {
                 }
                 
                 console.log("data", data);
-                setConsoElectDoughnut(data);
+                setConsoGazDoughnut(data);
             });
         } catch (error) {
             console.error("Error fetching subcategories: ", error);
@@ -178,7 +176,11 @@ export default function Graph() {
                                 <CardTitle>Consommation d'Electricité par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <DoughnutCharter startYear={startYear} endYear={endYear} labels={consoElectDoughnut.labels} datasets={consoElectDoughnut.dataConso}/>
+                                <DoughnutCharter startYear={startYear} 
+                                endYear={endYear} 
+                                labels={consoElectDoughnut.labels} 
+                                datasets={consoElectDoughnut.dataConso}
+                            />
                             </CardContent>
                         </Card>
                         <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
@@ -186,7 +188,12 @@ export default function Graph() {
                                 <CardTitle>Consommation de Gaz par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <DoughnutCharter startYear={startYear} endYear={endYear} labels={consoGazDoughnut.labels} datasets={consoGazDoughnut.dataConso}/>
+                                <DoughnutCharter 
+                                    startYear={startYear} 
+                                    endYear={endYear} 
+                                    labels={consoGazDoughnut.labels} 
+                                    datasets={consoGazDoughnut.dataConso}
+                                />
                             </CardContent>
                         </Card>
                     </div>
