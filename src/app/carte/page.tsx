@@ -58,7 +58,7 @@ export default function Carte() {
                 };
 
                 try {
-                    const response = await fetch(`${API_URL}parcelles`, tokenOptions);
+                    const response = await fetch(`${API_URL}parcelles/annee/${selectedYear}`, tokenOptions);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -93,7 +93,7 @@ export default function Carte() {
                 };
 
                 try {
-                    const response = await fetch(`${API_URL}parcelles?annee=${selectedYear}`, tokenOptions);
+                    const response = await fetch(`${API_URL}parcelles/annee/${selectedYear}`, tokenOptions);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
