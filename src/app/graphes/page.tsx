@@ -29,6 +29,14 @@ export default function Graph() {
         labels: []
     })
 
+    const [consoGazDoughnut, setConsoGazDoughnut] = React.useState<
+        { dataConso: number[], labels: string[] }
+    >({
+        dataConso: [],
+        labels: []
+    })
+    
+
     const handleStartYearChange = (year: string) => {
         if (parseInt(year) > parseInt(endYear)) {
             setError("Année de début ne peut pas être supérieure à l'année de fin");
@@ -46,6 +54,7 @@ export default function Graph() {
             setEndYear(year);
         }
     };
+
     const fetchStatElecForDoughnut = async () => {
         try {
             await fetch(`/api/stat-elec-doughnut`,
@@ -71,8 +80,34 @@ export default function Graph() {
         }
     };
 
+    const fetchStatGazForDoughnut = async () => {
+        try {
+            await fetch(`/api/stat-gaz-doughnut`,
+                {
+                    method: "GET",
+                }
+            )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                if(data.error) {
+                    console.log("error", data.error);
+                    return;
+                }
+                
+                console.log("data", data);
+                setConsoElectDoughnut(data);
+            });
+        } catch (error) {
+            console.error("Error fetching subcategories: ", error);
+            return [];
+        }
+    };
+
     React.useEffect(() => {
         fetchStatElecForDoughnut();
+        fetchStatGazForDoughnut();
     }, []);
 
     return (
@@ -151,7 +186,7 @@ export default function Graph() {
                                 <CardTitle>Consommation de Gaz par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                {/*<DoughnutCharter startYear={startYear} endYear={endYear} />*/}
+                                <DoughnutCharter startYear={startYear} endYear={endYear} labels={consoGazDoughnut.labels} datasets={consoGazDoughnut.dataConso}/>
                             </CardContent>
                         </Card>
                     </div>
