@@ -114,7 +114,7 @@ export default function Graph() {
             <div className="flex gap-4 mb-4 w-full h-96">
                 <div className='w-1/4 h-full flex text-xl'>
                     <Card className="w-full" style={{height: '-webkit-fill-available'}}>
-                        <CardHeader className='text-center pt-12'>
+                        <CardHeader className='text-center pt-12 w-full'>
                             <CardTitle>Choisir les années voulues</CardTitle>
                         </CardHeader>
                         <CardContent className='pt-16'>
@@ -141,11 +141,12 @@ export default function Graph() {
                     </CardContent>
                 </Card>
             </div>
-            <div className='flex gap-4 h-min'>
 
-                <Card className="w-1/3 lg:w-1/2 h-full">
+            <div className='flex gap-4 h-screen'>
+
+                <Card className="lg:w-1/2 h-full items-center flex flex-col justify-center">
                     <CardHeader>
-                        <CardTitle>Consommation d'énergie par arondissement</CardTitle>
+                        <CardTitle className='text-xl'>Consommation d'énergie par arondissement</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <RadarCharter startYear={startYear} endYear={endYear}
@@ -157,9 +158,9 @@ export default function Graph() {
                 </Card>
 
                 <div className='flex flex-col gap-4 w-2/3 lg:w-1/2'>
-                    <Card className="w-full max-w-2/3" style={{height: '-webkit-fill-available'}}>
+                    <Card className="w-full max-w-2/3 flex flex-col items-center justify-center" style={{height: '-webkit-fill-available'}}>
                         <CardHeader>
-                            <CardTitle>Consommation d'énergie par secteur</CardTitle>
+                            <CardTitle className='text-xl'>Consommation d'énergie par secteur</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <BarCharter startYear={startYear} endYear={endYear}
@@ -170,20 +171,21 @@ export default function Graph() {
                         </CardContent>
                     </Card>
 
-                    <div className="flex flex-row gap-4">
-                        <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
+                    <div className="flex flex-row gap-4 h-screen">
+                        <Card className="w-full max-w-1/3 flex flex-col items-center h-1/2 justify-center" style={{height: '-webkit-fill-available'}}>
                             <CardHeader>
                                 <CardTitle>Consommation d'Electricité par secteur</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <DoughnutCharter startYear={startYear} 
-                                endYear={endYear} 
-                                labels={consoElectDoughnut.labels} 
-                                datasets={consoElectDoughnut.dataConso}
-                            />
+                                <DoughnutCharter 
+                                    startYear={startYear} 
+                                    endYear={endYear} 
+                                    labels={consoElectDoughnut.labels} 
+                                    datasets={consoElectDoughnut.dataConso}
+                                />
                             </CardContent>
                         </Card>
-                        <Card className="w-full max-w-1/3" style={{height: '-webkit-fill-available'}}>
+                        <Card className="w-full max-w-1/3 flex flex-col items-center h-1/2 justify-center" style={{height: '-webkit-fill-available'}}>
                             <CardHeader>
                                 <CardTitle>Consommation de Gaz par secteur</CardTitle>
                             </CardHeader>
@@ -200,9 +202,6 @@ export default function Graph() {
                 </div>
             </div>
 
-            <Card className="w-full" style={{height: '-webkit-fill-available'}}>
-                TEST
-            </Card>
             {error && <div className="text-red-500">{error}</div>}
         </div>
     );
