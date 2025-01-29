@@ -128,21 +128,17 @@ export default function Graph() {
                     console.log("error", data.error);
                     return;
                 }
+                console.log("data - elect-gaz-commune", data["2018"].total_conso_elec);
                 setConsoArrondissement(
                     {
                         years: {
-                            "2018": { total_conso_elec: [data["2018"][0]], total_conso_gaz: [data["2018"][1]] },
-                            "2019": { total_conso_elec: [data["2019"][0]], total_conso_gaz: [data["2019"][1]] },
-                            "2020": { total_conso_elec: [data["2020"][0]], total_conso_gaz: [data["2020"][1]] }
+                            "2018": { total_conso_elec: data["2018"].total_conso_elec, total_conso_gaz: data["2018"].total_conso_gaz },
+                            "2019": { total_conso_elec: data["2019"].total_conso_elec, total_conso_gaz: data["2019"].total_conso_gaz },
+                            "2020": { total_conso_elec: data["2020"].total_conso_elec, total_conso_gaz: data["2020"].total_conso_gaz }
                         },
                         labels: data.labels
                     }
                 )
-                console.log({
-                    "2018": { total_conso_elec: [data["2018"][0]], total_conso_gaz: [data["2018"][1]] },
-                    "2019": { total_conso_elec: [data["2019"][0]], total_conso_gaz: [data["2019"][1]] },
-                    "2020": { total_conso_elec: [data["2020"][0]], total_conso_gaz: [data["2020"][1]] }
-                })
             });
         } catch (error) {
             console.error("Error fetching subcategories: ", error);
