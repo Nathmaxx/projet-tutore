@@ -46,7 +46,6 @@ export default function Graph() {
             setEndYear(year);
         }
     };
-
     const fetchStatElecForDoughnut = async () => {
         try {
             await fetch(`/api/stat-elec-doughnut`,

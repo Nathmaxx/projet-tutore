@@ -26,8 +26,9 @@ interface DoughnutCharterProps {
     startYear: string;
     endYear: string;
     labels: string[];
-    datasets: []
+    datasets: number[]
 }
+
 
 
 
@@ -78,43 +79,28 @@ export function DoughnutCharter({startYear, endYear, labels, datasets}: Doughnut
             ]
         ]
 
-    const calculateSumByYears = (startYear: string, endYear: string, dataset: any[]) => {
-        // Initialiser tableau de résultats
-        const sums = [0, 0, 0];
-        
-        // Pour chaque catégorie (résidentiel, industriel, tertiaire)
-        dataset.forEach((category, index) => {
-            // Filtrer et sommer les données entre startYear et endYear
-            sums[index] = category
-                .filter((item: any) => 
-                    item.annee >= parseInt(startYear) && 
-                    item.annee <= parseInt(endYear))
-                .reduce((acc: number, curr: any) => acc + curr.total, 0);
-        });
+        const calculateSumByYears = (startYear: string, endYear: string, dataset: any[]) => {
+            // Initialiser tableau de résultats
+            const sums = [0, 0, 0];
+            
+            // Pour chaque catégorie (résidentiel, industriel, tertiaire)
+            dataset.forEach((category, index) => {
+                // Filtrer et sommer les données entre startYear et endYear
+                const sum = category
+                    .filter((item: any) => 
+                        item.annee >= parseInt(startYear) && 
+                        item.annee <= parseInt(endYear))
+                    .reduce((acc: number, curr: any) => acc + curr.total, 0);
+                    
+                sums[index] = Number(sum.toFixed(0));
+            });
+            
+            return sums;
+        };
 
-        console.log(typeof sums[0])
-        
-        return sums;
-    };
-    
-    // Usage:
-    const sumResults = calculateSumByYears(startYear, endYear, datasets);
-    console.log(sumResults)
-    
+        console.log('dataset', datasets)
 
-    /*const calcSum2 = () => {
-        let actualYear = parseInt(startYear)
-        const sums = new Array(3).fill(0); // Pour les 3 types
-
-        while(parseInt(endYear) - parseInt(startYear) !== 0 ){
-
-            sums[0] = datasets[0]
-            actualYear++
-        }
-
-    }*/
-
-    
+        console.log(calculateSumByYears(startYear, endYear, datasets))  
        
 
     const data = {
@@ -123,7 +109,7 @@ export function DoughnutCharter({startYear, endYear, labels, datasets}: Doughnut
         datasets: [
             {
                 label: 'Quantité',
-                data: [15,5,6],
+                data: calculateSumByYears(startYear, endYear, datasets),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
