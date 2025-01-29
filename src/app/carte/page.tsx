@@ -47,6 +47,7 @@ export default function Carte() {
 
     useEffect(() => {
         if (selectedYear) {
+            console.log('Selected year:', selectedYear);
             const fetchData = async () => {
                 const tokenOptions = {
                     method: 'GET',
@@ -105,7 +106,7 @@ export default function Carte() {
                     const features = communeData
                         .slice(0, 9999)
                         .map((parcelle: any) => {
-                            const coordinates = JSON.parse(parcelle.coordinates);
+                            const coordinates = parcelle?.coordinates?.lat !== '' ? parcelle.coordinates : JSON.parse(parcelle.coordinates);
                             return {
                                 type: 'Feature',
                                 geometry: {
@@ -158,7 +159,7 @@ export default function Carte() {
                     });
 
                     map.on('click', 'parcelles-layer', async (e) => {
-                        let id = e.features[0].properties.id;
+                        const id = e.features[0].properties.id;
                         console.log('Parcelle ID:', id);
                         //id = '69381000AL0245';
                         try {
