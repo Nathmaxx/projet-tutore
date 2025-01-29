@@ -21,7 +21,7 @@ export default function Carte() {
     const mapContainer = useRef(null);
     const [viewState] = useState<{ center: [number, number]; zoom: number; pitch: number }>({
         center: [4.83397, 45.76748],
-        zoom: 13,
+        zoom: 14,
         pitch: 40
     });
 
@@ -243,7 +243,7 @@ export default function Carte() {
                             </Popover>
                         </div>
                     </div>
-                    <div ref={mapContainer} className="w-full h-[600px] rounded-lg"/>
+                    <div ref={mapContainer} className="w-full h-[800px] rounded-lg"/>
                 </CardContent>
             </Card>
             <Footer />
