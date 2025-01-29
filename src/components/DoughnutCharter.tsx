@@ -28,7 +28,7 @@ export function DoughnutCharter({startYear, endYear }) {
         labels,
         datasets: [
             {
-                label: 'Quantité',
+                label: 'kWh',
                 data: [12, 19, 3],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

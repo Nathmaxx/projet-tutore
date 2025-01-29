@@ -35,8 +35,18 @@ export const options = {
             family: 'monospace'
         }
     },
+
     scales: {
         x: {
+            title: {
+                display: true,
+                align: 'center',
+                text: 'Année',
+                color: 'black',
+                font: {
+                    family: 'monospace'
+                },
+            },
             ticks: {
                 font: {
                     family: 'monospace'
@@ -44,6 +54,15 @@ export const options = {
             }
         },
         y: {
+            title: {
+                display: true,
+                align: 'center',
+                text: 'kWh',
+                color: 'black',
+                font: {
+                    family: 'monospace'
+                },
+            },
             ticks: {
                 font: {
                     family: 'monospace'

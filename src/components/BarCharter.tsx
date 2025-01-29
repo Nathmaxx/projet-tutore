@@ -21,10 +21,46 @@ ChartJS.register(
 
 export const options = {
     responsive: true,
+    onResize: (700),
     plugins: {
         legend: {
             position: 'top' as const,
         },
+    },
+
+    scales: {
+        x: {
+            title: {
+                display: true,
+                align: 'center',
+                text: 'Année',
+                color: 'black',
+                font: {
+                    family: 'monospace'
+                },
+            },
+            ticks: {
+                font: {
+                    family: 'monospace'
+                }
+            }
+        },
+        y: {
+            title: {
+                display: true,
+                align: 'center',
+                text: 'kWh',
+                color: 'black',
+                font: {
+                    family: 'monospace'
+                },
+            },
+            ticks: {
+                font: {
+                    family: 'monospace'
+                }
+            }
+        }
     },
 };
 
