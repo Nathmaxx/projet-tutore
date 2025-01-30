@@ -80,7 +80,6 @@ export default function Carte() {
                     console.log(data);
 
                     const uniqueCommunes: string[] = Array.from(new Set(data.map((parcelle: any) => parcelle.commune)));
-
                     uniqueCommunes.sort((a, b) => {
                         const numA = parseInt(a.match(/\d+/)?.[0] || '0', 10);
                         const numB = parseInt(b.match(/\d+/)?.[0] || '0', 10);
@@ -238,13 +237,13 @@ export default function Carte() {
                         <div>Année: <ComboBoxYear onChange={(year) => setSelectedYear(year)}/></div>
                         <div>
                             Commune:
-                            <Popover open={open} onOpenChange={setOpen} className="w-[250px]">
+                            <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant="outline"
                                         role="combobox"
                                         aria-expanded={open}
-                                        className="w-[200px] justify-between"
+                                        className="w-[250px] justify-between"
                                     >
                                         {selectedCommune || "Select a commune"}
                                         <ChevronsUpDown className="opacity-50"/>
