@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
       <body className="bg-gray-200">
         <div className=' fixed h-screen w-full overflow-hidden -z-10'>
           <AnimatedNoise opacity={0.07}/>
