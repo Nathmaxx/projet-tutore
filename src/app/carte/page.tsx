@@ -10,7 +10,6 @@ import {Command, CommandInput, CommandList, CommandItem, CommandEmpty, CommandGr
 import {Check, ChevronsUpDown} from 'lucide-react';
 import {cn} from '@/lib/utils';
 
-
 const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
 
@@ -30,11 +29,24 @@ export default function Carte() {
     const [open, setOpen] = useState(false);
     const [overlayData, setOverlayData] = useState<any>(null);
 
-    useEffect(() => {
-        for (Element in overlayData) {
-            console.log("annee", Element.annee)
+    const fetchDataWithRetry = async (url: string, options: RequestInit, retries = 5) => {
+        for (let i = 0; i < retries; i++) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    //throw new Error(`HTTP error! status: ${response.status}`);
+                    console.log(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.log(`Attempt ${i + 1} failed:`, error);
+                if (i === retries - 1) {
+                    //throw error;
+                    console.log('Retries limit reached.');
+                }
+            }
         }
-    }, [overlayData]);
+    };
 
     useEffect(() => {
         if (mapContainer.current) {
@@ -64,16 +76,11 @@ export default function Carte() {
                 };
 
                 try {
-                    const response = await fetch(`${API_URL}parcelles/annee/${selectedYear}`, tokenOptions);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
+                    const data = await fetchDataWithRetry(`${API_URL}parcelles/annee/${selectedYear}`, tokenOptions);
                     console.log(data);
 
                     const uniqueCommunes: string[] = Array.from(new Set(data.map((parcelle: any) => parcelle.commune)));
 
-                    // Sort the communes based on the number contained in each name
                     uniqueCommunes.sort((a, b) => {
                         const numA = parseInt(a.match(/\d+/)?.[0] || '0', 10);
                         const numB = parseInt(b.match(/\d+/)?.[0] || '0', 10);
@@ -82,7 +89,7 @@ export default function Carte() {
 
                     setCommunes(uniqueCommunes);
                 } catch (error) {
-                    console.error('Error fetching data:', error);
+                    console.log('Error fetching data:', error);
                 }
             };
 
@@ -107,11 +114,7 @@ export default function Carte() {
                 };
 
                 try {
-                    const response = await fetch(`${API_URL}parcelles/annee/${selectedYear}`, tokenOptions);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
+                    const data = await fetchDataWithRetry(`${API_URL}parcelles/annee/${selectedYear}`, tokenOptions);
                     console.log(data);
 
                     const communeData = data.filter((parcelle: any) => parcelle.commune === selectedCommune);
@@ -120,7 +123,6 @@ export default function Carte() {
                     const features = communeData
                         .slice(0, 9999)
                         .map((parcelle: any) => {
-                            //const coordinates = parcelle?.coordinates?.lat !== '' ? parcelle.coordinates : JSON.parse(parcelle.coordinates);
                             const coordinates = JSON.parse(parcelle.coordinates);
                             return {
                                 type: 'Feature',
@@ -179,13 +181,8 @@ export default function Carte() {
                         if (e.features && e.features.length > 0) {
                             const id = e.features[0].properties.id;
                             console.log('Parcelle ID:', id);
-                            //id = '69381000AL0245';
                             try {
-                                const response = await fetch(`${API_URL}parcelles/${id}`, tokenOptions);
-                                if (!response.ok) {
-                                    throw new Error(`HTTP error! status: ${response.status}`);
-                                }
-                                const data = await response.json();
+                                const data = await fetchDataWithRetry(`${API_URL}parcelles/${id}`, tokenOptions);
                                 setOverlayData(data);
                                 console.log(data);
                             } catch (error) {
