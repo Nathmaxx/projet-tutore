@@ -18,7 +18,7 @@ export default function Carte() {
     const mapContainer = useRef(null);
     const [viewState] = useState<{ center: [number, number]; zoom: number; pitch: number }>({
         center: [4.83397, 45.76748],
-        zoom: 14,
+        zoom: 12,
         pitch: 40
     });
 
@@ -57,6 +57,14 @@ export default function Carte() {
                 pitch: viewState.pitch
             });
             setMap(mapInstance);
+
+            mapInstance.on('load', () => {
+                mapInstance.flyTo({
+                    zoom: 14,
+                    center: viewState.center,
+                    essential: true
+                });
+            });
 
             return () => mapInstance.remove();
         }
