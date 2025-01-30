@@ -28,6 +28,7 @@ export default function Carte() {
     const [map, setMap] = useState<maplibregl.Map | null>(null);
     const [open, setOpen] = useState(false);
     const [overlayData, setOverlayData] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
 
     const fetchDataWithRetry = async (url: string, options: RequestInit, retries = 5) => {
         for (let i = 0; i < retries; i++) {
@@ -65,6 +66,7 @@ export default function Carte() {
         if (selectedYear) {
             console.log('Selected year:', selectedYear);
             const fetchData = async () => {
+                setLoading(true);
                 const tokenOptions = {
                     method: 'GET',
                     headers: {
@@ -92,6 +94,8 @@ export default function Carte() {
                     setSelectedCommune(randomCommune);
                 } catch (error) {
                     console.log('Error fetching data:', error);
+                } finally {
+                    setLoading(false);
                 }
             };
 
@@ -107,6 +111,7 @@ export default function Carte() {
             }
 
             const fetchData = async () => {
+                setLoading(true);
                 const tokenOptions = {
                     method: 'GET',
                     headers: {
@@ -188,7 +193,7 @@ export default function Carte() {
                                 setOverlayData(data);
                                 console.log(data);
                             } catch (error) {
-                                console.error('Error fetching data:', error);
+                                console.log('Error fetching data:', error);
                             }
                         } else {
                             console.log('No features found on click event.');
@@ -214,7 +219,9 @@ export default function Carte() {
                         }
                     }
                 } catch (error) {
-                    console.error('Error fetching data:', error);
+                    console.log('Error fetching data:', error);
+                } finally {
+                    setLoading(false);
                 }
             };
 
@@ -276,7 +283,16 @@ export default function Carte() {
                     </div>
                 </CardHeader>
                 <CardContent className="relative">
-                    <div ref={mapContainer} className="relative w-full h-[800px] rounded-lg"/>
+                    <div ref={mapContainer}
+                         className={`relative w-full h-[800px] rounded-lg transition-all duration-500 ${loading ? 'blur-sm' : 'blur-0'}`}/>
+                    {loading && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div
+                                className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500"
+                                role="status">
+                            </div>
+                        </div>
+                    )}
                     {overlayData && overlayData.length > 0 && (
                         <div className="absolute top-0 left-6 m-4 p-4 bg-white rounded-lg shadow-lg w-1/3">
                             <div className="flex justify-between items-center">
