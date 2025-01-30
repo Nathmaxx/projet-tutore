@@ -28,6 +28,11 @@ export function ComboBoxYear({ value, onChange, startYear }) {
 
     const handleSelect = (currentValue) => {
         const newValue = currentValue === selectedValue ? "" : currentValue;
+        
+        if(!newValue) {
+            setOpen(false);
+            return;
+        }
         setSelectedValue(newValue);
         setOpen(false);
         if (onChange) {
