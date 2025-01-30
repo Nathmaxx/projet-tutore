@@ -239,7 +239,7 @@ export default function Graph() {
                 <div className='h-96 w-1/2'>
                     <Card className="w-full h-full flex flex-col" style={{height: '-webkit-fill-available'}}>
                         <CardHeader>
-                            <CardTitle className='text-xl text-center'>Consommation d'énergie totale</CardTitle>
+                            <CardTitle className='text-xl text-center'>Consommation d'énergie totale (kWh)</CardTitle>
                         </CardHeader>
                         <CardContent className=' flex-1'>
                             <LineCharter 
@@ -247,13 +247,16 @@ export default function Graph() {
                                 endYear={parseInt(endYear)}
                                 dataset={consommationData}
                             />
+                        <div className='mt-3'>
+                            <p className='text-center'>Les consommations de gaz et d'électricité sont dans le même ordre de grandeur.</p>
+                        </div>
                         </CardContent>
                     </Card>
                 </div>
                 <div className='h-96 w-1/2'>
                 <Card className="w-full h-full flex flex-col">
         <CardHeader>
-            <CardTitle className='text-xl text-center'>Consommation d'énergie par secteur</CardTitle>
+            <CardTitle className='text-xl text-center'>Consommation de gaz et d'électricité par unité de surface (kWh/m²)</CardTitle>
         </CardHeader>
         <CardContent className='flex-1 relative'>
             <div className="absolute inset-0 flex items-center justify-center p-4">
@@ -266,6 +269,9 @@ export default function Graph() {
                 </div>
             </div>
         </CardContent>
+        <div className='mb-3'>
+            <p className='text-center'>Les consommations de gaz et d'électricité sont équivalentes par unité de surface</p>
+        </div>
     </Card>
                 </div>
             </div>
@@ -287,7 +293,7 @@ export default function Graph() {
                     <div className='w-2/3 h-full flex flex-col'>
                         <Card className="w-full h-full flex flex-col">
                             <CardHeader className="shrink-0 flex items-center justify-center">
-                                <CardTitle className='text-xl'>Consommation d'énergie par arondissement</CardTitle>
+                                <CardTitle className='text-xl'>Consommation d'énergie par arondissement (kWh)</CardTitle>
                             </CardHeader>
                             <CardContent className="flex-1 relative p-8">
                                 <div className="absolute inset-0 flex items-center justify-center">
@@ -309,7 +315,7 @@ export default function Graph() {
                         <div className='w-full h-full'>
                             <Card className="h-full flex flex-col">
                                 <CardHeader className='h-1/5 flex items-center justify-center'>
-                                    <CardTitle className="text-center text-xl">Consommation d'Électricité par secteur</CardTitle>
+                                    <CardTitle className="text-center text-xl">Consommation d'Électricité par secteur (kWh)</CardTitle>
                                 </CardHeader>
                                 <CardContent className="flex-1 flex justify-center">
                                     <div className="flex justify-center">
