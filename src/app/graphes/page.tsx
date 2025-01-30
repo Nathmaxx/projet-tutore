@@ -6,7 +6,7 @@ import {ComboBoxYear} from "./../../components/ComboBoxYear";
 import {BarCharter} from "./../../components/BarCharter";
 import {RadarCharter} from './../../components/RadarCharter';
 import {DataItem, DoughnutCharter} from './../../components/DoughnutCharter';
-import {LineCharter} from "./../../components/LineCharter";
+import {DatasetLineCharterType, LineCharter} from "./../../components/LineCharter";
 import ComboBox from '@/components/ComboBox';
 
 const rElec = 115;
@@ -53,9 +53,7 @@ export default function Graph() {
         labels: []
     })
 
-    const [consommationData, setConsommationData] = useState({
-
-    });
+    const [consommationData, setConsommationData] = useState<DatasetLineCharterType[]>([]);
 
 
     const handleStartYearChange = (year: string) => {
@@ -93,7 +91,6 @@ export default function Graph() {
                 }
                 
                 setConsoElectDoughnut(data)
-                console.log(data)
             });
         } catch (error) {
             console.error("Error fetching subcategories: ", error);
@@ -139,7 +136,6 @@ export default function Graph() {
                     console.log("error", data.error);
                     return;
                 }
-                console.log("data - elect-gaz-commune", data["2018"].total_conso_elec);
                 setConsoArrondissement(
                     {
                         years: {
@@ -159,7 +155,7 @@ export default function Graph() {
 
     const fecthConsoYear = async () => {
         try {
-            await fetch(`/api/elec-gaz-commune`,
+            await fetch(`/api/conso-by-year`,
                 {
                     method: "GET",
                 }
@@ -172,6 +168,8 @@ export default function Graph() {
                     console.log("error", data.error);
                     return;
                 }
+                setConsommationData(data)
+                console.log(data)
             });
         } catch (error) {
             console.error("Error fetching subcategories: ", error);
@@ -217,26 +215,38 @@ export default function Graph() {
                             <CardTitle className='text-xl text-center'>Consommation d'énergie totale</CardTitle>
                         </CardHeader>
                         <CardContent className=' flex-1'>
-                            <LineCharter startYear={startYear} endYear={endYear}
-                                         rElec={rElec} gElec={gElec} bElec={bElec} transparencyElec={transparencyElec}
-                                         rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
+                            <LineCharter 
+                                startYear={parseInt(startYear)} 
+                                endYear={parseInt(endYear)}
+                                dataset={consommationData}
                             />
                         </CardContent>
                     </Card>
                 </div>
                 <div className='h-96 w-1/2'>
-                    <Card className="w-full h-full flex flex-col items-center" style={{height: '-webkit-fill-available'}}>
-                        <CardHeader>
-                            <CardTitle className='text-xl text-center'>Consommation d'énergie par secteur</CardTitle>
-                        </CardHeader>
-                        <CardContent className='flex-1'> 
-                            <BarCharter startYear={startYear} endYear={endYear}
-                                        rElec={rElec} gElec={gElec} bElec={bElec}
-                                        transparencyElec={transparencyElec}
-                                        rGaz={rGaz} gGaz={gGaz} bGaz={bGaz} transparencyGaz={transparencyGaz}
-                            />
-                        </CardContent>
-                    </Card>
+                <Card className="w-full h-full flex flex-col">
+        <CardHeader>
+            <CardTitle className='text-xl text-center'>Consommation d'énergie par secteur</CardTitle>
+        </CardHeader>
+        <CardContent className='flex-1 relative'>
+            <div className="absolute inset-0 flex items-center justify-center p-4">
+                <div className="w-full h-full flex justify-center">
+                    <BarCharter 
+                        startYear={startYear} 
+                        endYear={endYear}
+                        rElec={rElec} 
+                        gElec={gElec} 
+                        bElec={bElec}
+                        transparencyElec={transparencyElec}
+                        rGaz={rGaz} 
+                        gGaz={gGaz} 
+                        bGaz={bGaz} 
+                        transparencyGaz={transparencyGaz}
+                    />
+                </div>
+            </div>
+        </CardContent>
+    </Card>
                 </div>
             </div>
 
@@ -259,22 +269,26 @@ export default function Graph() {
                             <CardHeader className="shrink-0 flex items-center justify-center">
                                 <CardTitle className='text-xl'>Consommation d'énergie par arondissement</CardTitle>
                             </CardHeader>
-                            <CardContent className="flex-1 flex items-center justify-center">
-                                <div className="w-full h-full">
-                                    <RadarCharter 
-                                        labels={consoArrondissement.labels}
-                                        datasets={consoArrondissement.years}  
-                                        year={CBYearGraph} 
-                                    />
+                            <CardContent className="flex-1 relative p-8">
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-[90%] h-[90%]">
+                                        <RadarCharter 
+                                            labels={consoArrondissement.labels}
+                                            datasets={consoArrondissement.years}  
+                                            year={CBYearGraph} 
+                                        />
+                                    </div>
                                 </div>
-
                             </CardContent>
+                            <div className='w-full text-center mb-5'>
+                                <p>Une surconsommation est présente dans le 5ème arrondissement. <br/> Cet arrondissement est celui du Vieux Lyon, contenant les bâtiments les plus anciens</p>
+                            </div>
                         </Card>
                     </div>
                     <div className='w-1/3 h-full grid grid-rows-2 gap-4'>
                         <div className='w-full h-full'>
                             <Card className="h-full flex flex-col">
-                                <CardHeader className='h-1/4 flex items-center justify-center'>
+                                <CardHeader className='h-1/5 flex items-center justify-center'>
                                     <CardTitle className="text-center text-xl">Consommation d'Électricité par secteur</CardTitle>
                                 </CardHeader>
                                 <CardContent className="flex-1 flex justify-center">
@@ -286,22 +300,28 @@ export default function Graph() {
                                         />
                                     </div>
                                 </CardContent>
+                                <div className='text-center mb-3'>
+                                    <p>Les entreprises du domaine tertiaire dominent <br/>la répartition de consommation électrique</p>
+                                </div>
                             </Card>
                         </div>
                         <div className='w-full h-full'>
                             <Card className="h-full flex flex-col">
-                                <CardHeader className='h-1/4 flex items-center justify-center'>
+                                <CardHeader className='h-1/5 flex items-center justify-center'>
                                     <CardTitle className="text-center text-xl">Consommation de Gaz par secteur</CardTitle>
                                 </CardHeader>
                                 <CardContent className="flex-1 flex justify-center">
                                     <div className="flex justify-center">
                                         <DoughnutCharter  
-                                            year={endYear}
+                                            year={CBYearGraph}
                                             labels={consoGazDoughnut.labels} 
                                             datasets={consoGazDoughnut.dataConso}
                                         />
                                     </div>
                                 </CardContent>
+                                <div>
+                                    <p className=' mb-2 text-center'>Les consommations résidentielles prennent <br/>une part plus importante pour le gaz</p>
+                                </div>
                             </Card>
                         </div>
                     </div>

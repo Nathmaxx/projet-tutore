@@ -6,7 +6,6 @@ import {
     Legend
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { endOfYear } from 'date-fns';
 
 ChartJS.register(
     ArcElement,
@@ -42,26 +41,30 @@ export function DoughnutCharter({year, labels, datasets}: DoughnutCharterProps) 
         const yearInt = parseInt(year)
 
         const calcValues = (year: number) => {
-
-            let returnList = [0, 0, 0]
-
+            let returnList = [0, 0, 0];
+            
+            // Récupérer les valeurs
             datasets.forEach((sousTableau, index) => {
                 sousTableau.forEach(item => {
                     if(item.annee === year){
-                        returnList[index] = item.total
+                        returnList[index] = item.total;
                     }
                 });
             });
-
-            return returnList
-        } 
+            
+            // Calculer le total
+            const total = returnList.reduce((acc, curr) => acc + curr, 0);
+            
+            // Calculer les pourcentages
+            return returnList.map(value => (value / total) * 100);
+        }
 
     const data = {
         labels: labels,
         // replace datasets with the one from the props
         datasets: [
             {
-                label: 'Quantité',
+                label: 'Quantité (%)',
                 data: calcValues(yearInt),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

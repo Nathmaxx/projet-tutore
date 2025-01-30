@@ -53,58 +53,80 @@ export const options = {
     },
 };
 
+export interface DatasetLineCharterType {
+    annee: string;
+    total_conso_gaz: number;
+    total_conso_elec: number;
+}
+
 interface LineCharterProps {
     startYear: number;
     endYear: number;
-    rElec: number;
-    gElec: number;
-    bElec: number;
-    transparencyElec: number;
-    rGaz: number;
-    gGaz: number;
-    bGaz: number;
-    transparencyGaz: number;
+    dataset: DatasetLineCharterType[]
 }
 
-export function LineCharter({ startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz }: LineCharterProps) {
+export function LineCharter({ startYear, endYear, dataset}: LineCharterProps) {
 
     const [data, setData] = useState<ChartData<'line'>>({
         labels: [],
         datasets: []
     });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            // Generate labels based on startYear and endYear
-            const labels = [];
-            for (let year = startYear; year <= endYear; year++) {
-                labels.push(year.toString());
+    type ConsoType = 'total_conso_gaz' | 'total_conso_elec';
+
+    const addConsoOfType = (searchedType: ConsoType) => {
+        let returnList = []
+        for(let i = 0; i < dataset.length; i++) {
+            const year = parseInt(dataset[i].annee);
+            if (year >= startYear && year <= endYear) {
+                returnList.push(dataset[i][searchedType]);
             }
+        }
+        return returnList;
+    }
 
-            // Example datasets
-            const datasets = [
-                {
-                    label: 'Electricité',
-                    data: labels.map(() => Math.floor(Math.random() * 100)),
-                    backgroundColor: `rgba(${rElec}, ${gElec}, ${bElec}, ${transparencyElec})`,
-                    borderColor: `rgba(${rElec}, ${gElec}, ${bElec}, ${Math.min(transparencyElec + 0.2, 1)})`,
-                    tension: 0.3
-                },
-                {
-                    label: 'Gaz',
-                    data: labels.map(() => Math.floor(Math.random() * 100)),
-                    backgroundColor: `rgba(${rGaz}, ${gGaz}, ${bGaz}, ${transparencyGaz})`,
-                    borderColor: `rgba(${rGaz}, ${gGaz}, ${bGaz}, ${Math.min(transparencyGaz + 0.2, 1)})`,
-                    tension: 0.3
-                },
-            ];
+    const generateYearsList = () => {
+        const years = [];
+        for (let year = startYear; year <= endYear; year++) {
+            years.push(year.toString());
+        }
+        return years;
+    };
 
-            // Update the data state
-            setData({ labels, datasets });
-        };
+    const fetchData = () => {
 
-        fetchData();
-    }, [startYear, endYear, rElec, gElec, bElec, transparencyElec, rGaz, gGaz, bGaz, transparencyGaz]);
+        const labels = generateYearsList();
+        
+        // Example datasets
+        const datasets = [
+            {
+                label: 'Electricité',
+                data: addConsoOfType('total_conso_elec'),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                tension: 0.2
+            },
+            {
+                label: 'Gaz',
+                data: addConsoOfType('total_conso_gaz'),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                tension: 0.2
+            },
+        ];
+
+        // Update the data state
+        setData({ labels, datasets });
+    };
+
+    useEffect(() => {
+        if(dataset && dataset.length > 0 ){
+            fetchData();
+        }        
+
+    }, [startYear, endYear, dataset]);
 
     return (
         <Line options={options} data={data} className='max-h-64 w-full'/>
