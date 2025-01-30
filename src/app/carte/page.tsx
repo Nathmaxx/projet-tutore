@@ -34,14 +34,12 @@ export default function Carte() {
             try {
                 const response = await fetch(url, options);
                 if (!response.ok) {
-                    //throw new Error(`HTTP error! status: ${response.status}`);
                     console.log(`HTTP error! status: ${response.status}`);
                 }
                 return await response.json();
             } catch (error) {
                 console.log(`Attempt ${i + 1} failed:`, error);
                 if (i === retries - 1) {
-                    //throw error;
                     console.log('Retries limit reached.');
                 }
             }
@@ -88,6 +86,10 @@ export default function Carte() {
                     });
 
                     setCommunes(uniqueCommunes);
+
+                    // Select a random commune and set it
+                    const randomCommune = uniqueCommunes[Math.floor(Math.random() * uniqueCommunes.length)];
+                    setSelectedCommune(randomCommune);
                 } catch (error) {
                     console.log('Error fetching data:', error);
                 }
@@ -229,7 +231,7 @@ export default function Carte() {
                         <div>Année: <ComboBoxYear onChange={(year) => setSelectedYear(year)}/></div>
                         <div>
                             Commune:
-                            <Popover open={open} onOpenChange={setOpen}>
+                            <Popover open={open} onOpenChange={setOpen} className="w-[250px]">
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant="outline"
@@ -243,7 +245,7 @@ export default function Carte() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-[250px] p-0">
                                     <Command>
-                                        <CommandInput placeholder="Search commune..." className="h-9"/>
+                                        <CommandInput placeholder="Search commune..." className="h-9 w-[250px]"/>
                                         <CommandList>
                                             <CommandEmpty>No commune found.</CommandEmpty>
                                             <CommandGroup>
