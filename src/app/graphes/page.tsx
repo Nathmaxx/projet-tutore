@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import {Card, CardContent, CardHeader, CardTitle} from "./../../components/ui/card";
 import {ComboBoxYear} from "./../../components/ComboBoxYear";
-import {BarCharter} from "./../../components/BarCharter";
+import {BarCharter, BarCharterDataset} from "./../../components/BarCharter";
 import {RadarCharter} from './../../components/RadarCharter';
 import {DataItem, DoughnutCharter} from './../../components/DoughnutCharter';
 import {DatasetLineCharterType, LineCharter} from "./../../components/LineCharter";
@@ -54,6 +54,8 @@ export default function Graph() {
     })
 
     const [consommationData, setConsommationData] = useState<DatasetLineCharterType[]>([]);
+    
+    const [consoSurf, setConsoSurf] = useState<BarCharterDataset[]>([]);
 
 
     const handleStartYearChange = (year: string) => {
@@ -177,12 +179,37 @@ export default function Graph() {
         }
     };
 
+    const fecthConsoSurf = async () => {
+        try {
+            await fetch(`/api/conso-surface`,
+                {
+                    method: "GET",
+                }
+            )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                if(data.error) {
+                    console.log("error", data.error);
+                    return;
+                }
+                setConsoSurf(data)
+                console.log('conso',data)
+            });
+        } catch (error) {
+            console.error("Error fetching subcategories: ", error);
+            return [];
+        }
+    };
+
 
     React.useEffect(() => {
         fetchStatElecForDoughnut();
         fetchStatGazForDoughnut();
         fecthElectGazArr();
         fecthConsoYear();
+        fecthConsoSurf();
     }, []);
 
     return (
@@ -232,16 +259,9 @@ export default function Graph() {
             <div className="absolute inset-0 flex items-center justify-center p-4">
                 <div className="w-full h-full flex justify-center">
                     <BarCharter 
-                        startYear={startYear} 
-                        endYear={endYear}
-                        rElec={rElec} 
-                        gElec={gElec} 
-                        bElec={bElec}
-                        transparencyElec={transparencyElec}
-                        rGaz={rGaz} 
-                        gGaz={gGaz} 
-                        bGaz={bGaz} 
-                        transparencyGaz={transparencyGaz}
+                        startYear={+startYear} 
+                        endYear={+endYear}
+                        dataset={consoSurf}
                     />
                 </div>
             </div>
@@ -272,7 +292,7 @@ export default function Graph() {
                             <CardContent className="flex-1 relative p-8">
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <div className="w-[90%] h-[90%]">
-                                        <RadarCharter 
+                                       <RadarCharter 
                                             labels={consoArrondissement.labels}
                                             datasets={consoArrondissement.years}  
                                             year={CBYearGraph} 
