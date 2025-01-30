@@ -1,7 +1,10 @@
-
+import { Metadata } from "next";
 import { Card } from "./../../components/ui/card";
 
-
+export const metadata: Metadata = {
+    title:       'Contact',
+    description: 'Contactez-nous',
+  }
 
 export default function Contact() {
     return (
