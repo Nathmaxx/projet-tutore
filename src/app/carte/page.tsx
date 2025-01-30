@@ -9,6 +9,7 @@ import {Button} from '@/components/ui/button';
 import {Command, CommandInput, CommandList, CommandItem, CommandEmpty, CommandGroup} from '@/components/ui/command';
 import {Check, ChevronsUpDown} from 'lucide-react';
 import {cn} from '@/lib/utils';
+import { CircularBarsSpinnerLoader } from '@/components/ui/CircularBarSpinnerLoader';
 
 const API_URL = process.env.API_URL;
 const API_KEY = process.env.NRG_LYON_API_KEY;
@@ -294,10 +295,7 @@ export default function Carte() {
                          className={`relative w-full h-[800px] rounded-lg transition-all duration-500 ${loading ? 'blur-sm' : 'blur-0'}`}/>
                     {loading && (
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <div
-                                className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500"
-                                role="status">
-                            </div>
+                            <CircularBarsSpinnerLoader />
                         </div>
                     )}
                     {overlayData && overlayData.length > 0 && (
