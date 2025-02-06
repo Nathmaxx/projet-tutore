@@ -14,7 +14,7 @@ Notre site web est hébergé sur la plateforme Vercel, vous pouvez le retrouver 
 # Installation et configuration
 Pour installer l'application, il suffit de cloner le dépôt git et d'installer les dépendances avec npm.
 ```bash
-git clone https://github.com/Nathmaxx/projet-tutore-backend.git
+git clone https://github.com/Nathmaxx/projet-tutore.git
 cd projet-tutore
 npm install
 ```
