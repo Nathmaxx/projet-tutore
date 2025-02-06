@@ -10,7 +10,6 @@ Notre site web est hébergé sur la plateforme Vercel, vous pouvez le retrouver 
 # Prérequis
 - Node.js
 - npm
-- mysql
 
 # Installation et configuration
 Pour installer l'application, il suffit de cloner le dépôt git et d'installer les dépendances avec npm.
@@ -19,6 +18,10 @@ git clone https://github.com/Nathmaxx/projet-tutore-backend.git
 cd projet-tutore
 npm install
 ```
+
+Ensuite, rendez-vous sur le dépôt du backend avec le lien donné dans le mail et suivez les instructions inscrites dans le README afin de pouvoir lancer le projet. 
+
+
 # Lancement
 Pour lancer l'application, il suffit de lancer la commande suivante :
 
